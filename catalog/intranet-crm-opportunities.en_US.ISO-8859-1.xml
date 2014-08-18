@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="intranet-crm-opportunities" locale="en_US" charset="ISO-8859-1">
+   <msg key="OpportunityCustomer">Customer</msg>
+   <msg key="OpportunityCustomerContact">Contact</msg>
+   <msg key="OpportunityOwner">Owner</msg>
+   <msg key="OpportunityPriority">Priority</msg>
+   <msg key="OpportunityBudget">Budget</msg>
+   <msg key="OpportunityBudgetCurrency">Currency</msg>
+   <msg key="OpportunitySalesStage">Sales Stage</msg>
+</message_catalog>
