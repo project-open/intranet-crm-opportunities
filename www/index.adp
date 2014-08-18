@@ -1,19 +1,31 @@
 <master>
-<property name="title">@page_title@</property>
-<property name="context">#intranet-core.context#</property>
+<property name="title">@page_title;noquote@</property>
 <property name="main_navbar_label">crm</property>
-<% # <property name="sub_navbar">@project_navbar_html;noquote@</property>%>
+<property name="sub_navbar">@sub_navbar;noquote@</property>
 <property name="left_navbar">@left_navbar_html;noquote@</property>
-<property name="show_context_help">@show_context_help_p;noquote@</property>
 
-<form action="/intranet/crm/opportunity-action" method=POST>
-      <%= [export_form_vars return_url] %>
-      <table class="table_list_page">
-      	     <%= $table_header_html %>
-	     <%= $table_body_html %>
-	     <%= $table_continuation_html %>
-      </table>
-</form>
-<br/>
+<table cellpadding=0 cellspacing=0 border=0 width="100%">
+<tr><td>
+  <%= [im_component_bay top] %>
+</td></tr>
+</table>
+
+<table cellpadding=0 cellspacing=0 border=0 width="100%">
+<tr>
+  <td valign=top>
+    <%= [im_component_bay left] %>
+  </td>
+  <td valign=top>
+    <%= [im_component_bay right] %>
+  </td>
+</tr>
+</table>
+
+<table cellpadding=0 cellspacing=0 border=0 width="100%">
+<tr><td>
+  <%= [im_component_bay bottom] %>
+</td></tr>
+</table>
+
 
 

@@ -75,18 +75,18 @@ SELECT im_category_hierarchy_new (84020, 84018);
 -- Opportunity Base Data on Opportunity Home 
 
 SELECT im_component_plugin__new (
-	null,				-- plugin_id
-	'im_component_plugin',		-- object_type
-	now(),				-- creation_date
-	null,				-- creation_user
-	null,				-- creation_ip
-	null,				-- context_id
-	'Opportunity Base Data',	-- plugin_name - shown in menu
+	null,						-- plugin_id
+	'im_component_plugin',				-- object_type
+	now(),						-- creation_date
+	null,						-- creation_user
+	null,						-- creation_ip
+	null,						-- context_id
+	'Opportunity Base Data',			-- plugin_name - shown in menu
 	'intranet-crm-opportunities',			-- package_name
-	'left',				-- location
+	'left',						-- location
 	'/intranet-crm-opportunities/view',		-- page_url
-	null,				-- view_name
-	10,				-- sort_order
+	null,						-- view_name
+	10,						-- sort_order
 	'im_opportunity_base_data_component -opportunity_id $opportunity_id',	-- component_tcl
 	'lang::message::lookup "" "intranet-crm-opportunities.OpportunityBaseData" "Opportunity Base Data"'
 );
@@ -99,18 +99,18 @@ SELECT acs_permission__grant_permission(
 
 -- Opportunity Forum 
 SELECT im_component_plugin__new (
-        null,                           -- plugin_id
-        'im_component_plugin',          -- object_type
-        now(),                          -- creation_date
-        null,                           -- creation_user
-        null,                           -- creation_ip
-        null,                           -- context_id
-        'Opportunity Contact History',  -- plugin_name - shown in menu
-        'intranet-crm-opportunities',                 -- package_name
-        'right',                         -- location
-        '/intranet-crm-opportunities/view',           -- page_url
-        null,                           -- view_name
-        10,                             -- sort_order
+        null,                           		-- plugin_id
+        'im_component_plugin',          		-- object_type
+        now(),                          		-- creation_date
+        null,                           		-- creation_user
+        null,                           		-- creation_ip
+        null,                           		-- context_id
+        'Opportunity Contact History',  		-- plugin_name - shown in menu
+        'intranet-crm-opportunities',           	-- package_name
+        'right',                         		-- location
+        '/intranet-crm-opportunities/view',     	-- page_url
+        null,                           		-- view_name
+        10,                             		-- sort_order
         'im_forum_component -user_id $user_id -forum_object_id $opportunity_id -current_page_url $current_url -return_url $return_url -forum_type "project" -export_var_list [list project_id forum_start_idx forum_order_by forum_how_many forum_view_name] -view_name [im_opt_val forum_view_name] -forum_order_by [im_opt_val forum_order_by] -start_idx [im_opt_val forum_start_idx] -restrict_to_mine_p "f" -restrict_to_new_topics 0 -write_icons 1',    -- component_tcl
         'lang::message::lookup "" "intranet-crm-opportunities.OpportunityBaseData" "Opportunity Contact History"'
 );
@@ -123,19 +123,19 @@ SELECT acs_permission__grant_permission(
 
 -- Members
 SELECT  im_component_plugin__new (
-        null,                           -- plugin_id
-        'acs_object',                   -- object_type
-        now(),                          -- creation_date
-        null,                           -- creation_user
-        null,                           -- creation_ip
-        null,                           -- context_id
-        'Opportunity Members',              -- plugin_name
-        'intranet-crm-opportunities',                -- package_name
-        'right',                        -- location
-        '/intranet-crm-opportunities/view',      -- page_url
-        null,                           -- view_name
-        20,                             -- sort_order
-        'im_table_with_title "[lang::message::lookup "" intranet-crm-opportunities.OpportunityMembers "Members"]" [im_group_member_component $opportunity_id $current_user_id $user_admin_p $return_url "" "" 1 ]'   -- component_tcl
+        null,                           		-- plugin_id
+        'acs_object',                   		-- object_type
+        now(),                          		-- creation_date
+        null,                           		-- creation_user
+        null,                           		-- creation_ip
+        null,                           		-- context_id
+        'Opportunity Members',              		-- plugin_name
+        'intranet-crm-opportunities',           	-- package_name
+        'right',                        		-- location
+        '/intranet-crm-opportunities/view',     	-- page_url
+        null,                           		-- view_name
+        20,                             		-- sort_order
+        'im_table_with_title "[lang::message::lookup "" intranet-crm-opportunities.OpportunityMembers "Members"]" [im_group_member_component $opportunity_id $current_user_id $user_admin_p $return_url "" "" 1 ]'   		-- component_tcl
 );
 
 SELECT acs_permission__grant_permission(
@@ -146,19 +146,19 @@ SELECT acs_permission__grant_permission(
 
 -- Timesheet
 select im_component_plugin__new (
-        null,                                   -- plugin_id
-        'im_component_plugin',                  -- object_type
-        now(),                                  -- creation_date
-        null,                                   -- creation_user
-        null,                                   -- creattion_ip
-        null,                                   -- context_id
+        null,                                   	-- plugin_id
+        'im_component_plugin',                  	-- object_type
+        now(),                                  	-- creation_date
+        null,                                   	-- creation_user
+        null,                                   	-- creattion_ip
+        null,                                   	-- context_id
 
-        'Opportunity Timesheet Component',      -- plugin_name
-        'intranet-crm-opportunities',                         -- package_name
-        'right',                                -- location
-        '/intranet-crm-opportunities/view',              	-- page_url
-        null,                                   -- view_name
-        50,                                     -- sort_order
+        'Opportunity Timesheet Component',      	-- plugin_name
+        'intranet-crm-opportunities',			-- package_name
+        'right',                                	-- location
+        '/intranet-crm-opportunities/view',             -- page_url
+        null,                                   	-- view_name
+        50,                                     	-- sort_order
         'im_timesheet_project_component $user_id $opportunity_id',
         'lang::message::lookup "" intranet-timesheet2.Timesheet "Timesheet"'
 );
@@ -171,6 +171,101 @@ SELECT acs_permission__grant_permission(
         (select group_id from groups where group_name = 'Employees'),
         'read'
 );
+
+
+
+-------------------------------------------------------------------------------
+-- Sales Pipeline by Number and Volume
+--
+
+SELECT im_component_plugin__new (
+	null,					-- plugin_id
+	'im_component_plugin',			-- object_type
+	now(),					-- creation_date
+	null,					-- creation_user
+	null,					-- creation_ip
+	null,					-- context_id
+	'Sales Pipeline by Number',		-- plugin_name
+	'intranet-crm-opportunities',		-- package_name
+	'right',				-- location
+	'/intranet-crm-opportunities/index',	-- page_url
+	null,					-- view_name
+	100,					-- sort_order
+	'im_dashboard_histogram_sql -diagram_width 300 -sql "
+		select	im_category_from_id(p.project_status_id) as project_status,
+		        count(*) as cnt
+		from	im_projects p
+		where	p.parent_id is null and
+			p.project_status_id not in (select * from im_sub_categories(81))
+		group by project_status_id
+		order by project_status
+	"',
+	'lang::message::lookup "" intranet-crm-opportunities.Sales_Pipeline_by_Number "Sales Pipeline by Number"'
+);
+
+
+SELECT im_component_plugin__new (
+	null,					-- plugin_id
+	'im_component_plugin',			-- object_type
+	now(),					-- creation_date
+	null,					-- creation_user
+	null,					-- creation_ip
+	null,					-- context_id
+	'Sales Pipeline by Volume',		-- plugin_name
+	'intranet-crm-opportunities',		-- package_name
+	'right',				-- location
+	'/intranet-crm-opportunities/index',	-- page_url
+	null,					-- view_name
+	200,					-- sort_order
+	'im_dashboard_histogram_sql -diagram_width 300 -sql "
+		select	im_category_from_id(p.project_status_id) as project_status,
+		        sum(coalesce(presales_probability,project_budget,0) * coalesce(presales_value,0)) as value
+		from	im_projects p
+		where	p.parent_id is null and
+			p.project_status_id not in (select * from im_sub_categories(81))
+		group by project_status_id
+		order by project_status
+	"',
+	'lang::message::lookup "" intranet-crm-opportunities.Sales_Pipeline_by_Volume "Sales Pipeline by Volume"'
+);
+
+
+SELECT im_component_plugin__new (
+	null,					-- plugin_id
+	'im_component_plugin',			-- object_type
+	now(),					-- creation_date
+	null,					-- creation_user
+	null,					-- creation_ip
+	null,					-- context_id
+	'Top 10 Opportunities',			-- plugin_name - shown in menu
+	'intranet-crm-opportunities',		-- package_name
+	'right',				-- location
+	'/intranet-crm-opportunities/index',	-- page_url
+	null,					-- view_name
+	100,					-- sort_order
+	'im_ad_hoc_query -format html -package_key intranet-cost "
+select
+	''<a href=/intranet/companies/view?company_id='' || cust.company_id || ''>'' || cust.company_name || ''</a>'' as company,
+	''<a href=/intranet/projects/view?project_id='' || p.project_id || ''>'' || p.project_name || ''</a>'' as opportunity,
+	p.presales_value,
+	p.presales_probability,
+	p.presales_value * p.presales_probability as weighted_value
+from	im_projects p,
+	im_companies cust
+where	p.parent_id is null and
+	p.project_type_id = 102 and
+	p.company_id = cust.company_id
+order by weighted_value DESC
+limit 10
+"',   -- component_tcl
+	'lang::message::lookup "" intranet-crm-opportunities.Top_10_Opportunities "Top 10 Opportunities"'
+);
+
+
+
+
+
+
 
 
 -- Dont hide this component like the other ones below,
@@ -188,6 +283,7 @@ declare
 	-- Menu IDs
 	v_menu			integer;
 	v_main_menu		integer;
+	v_crm_menu		integer;
 
 	-- Groups
 	v_employees		integer;
@@ -211,31 +307,77 @@ BEGIN
 	select menu_id into v_main_menu	from im_menus where label='main';
 
 	-- Create the menu.
-	v_menu := im_menu__new (
-		null,			-- p_menu_id
-		'im_menu',		-- object_type
-		now(),			-- creation_date
-		null,			-- creation_user
-		null,			-- creation_ip
-		null,			-- context_id
+	v_crm_menu := im_menu__new (
+		null,				-- p_menu_id
+		'im_menu',			-- object_type
+		now(),				-- creation_date
+		null,				-- creation_user
+		null,				-- creation_ip
+		null,				-- context_id
 		'intranet-crm-opportunities',	-- package_name
-		'crm',		-- label
-		'CRM',		-- name
-		'/intranet-crm-opportunities/',-- url
-		15,			-- sort_order
-		v_main_menu,		-- parent_menu_id
-		null			-- p_visible_tcl
+		'crm',				-- label
+		'CRM',				-- name
+		'/intranet-crm-opportunities/',	-- url
+		15,				-- sort_order
+		v_main_menu,			-- parent_menu_id
+		null				-- p_visible_tcl
 	);
+	PERFORM acs_permission__grant_permission(v_crm_menu, v_admins, 'read');
+	PERFORM acs_permission__grant_permission(v_crm_menu, v_senman, 'read');
+	PERFORM acs_permission__grant_permission(v_crm_menu, v_proman, 'read');
+	PERFORM acs_permission__grant_permission(v_crm_menu, v_employees, 'read');
+	PERFORM acs_permission__grant_permission(v_crm_menu, v_companies, 'read');
 
-	-- Grant read permissions to most of the system
+	-- Create Opportunities
+	v_menu := im_menu__new (
+		null,				-- p_menu_id
+		'im_menu',			-- object_type
+		now(),				-- creation_date
+		null,				-- creation_user
+		null,				-- creation_ip
+		null,				-- context_id
+		'intranet-crm-opportunities',	-- package_name
+		'crm_home',			-- label
+		'CRM Home',			-- name
+		'/intranet-crm-opportunities/',	-- url
+		10,				-- sort_order
+		v_crm_menu,			-- parent_menu_id
+		null				-- p_visible_tcl
+	);
 	PERFORM acs_permission__grant_permission(v_menu, v_admins, 'read');
 	PERFORM acs_permission__grant_permission(v_menu, v_senman, 'read');
 	PERFORM acs_permission__grant_permission(v_menu, v_proman, 'read');
 	PERFORM acs_permission__grant_permission(v_menu, v_employees, 'read');
 	PERFORM acs_permission__grant_permission(v_menu, v_companies, 'read');
 
+	-- Create Opportunities
+	v_menu := im_menu__new (
+		null,				-- p_menu_id
+		'im_menu',			-- object_type
+		now(),				-- creation_date
+		null,				-- creation_user
+		null,				-- creation_ip
+		null,				-- context_id
+		'intranet-crm-opportunities',	-- package_name
+		'crm_opportunities',		-- label
+		'Opportunities',		-- name
+		'/intranet-crm-opportunities/opportunities',	-- url
+		20,				-- sort_order
+		v_crm_menu,			-- parent_menu_id
+		null				-- p_visible_tcl
+	);
+	PERFORM acs_permission__grant_permission(v_menu, v_admins, 'read');
+	PERFORM acs_permission__grant_permission(v_menu, v_senman, 'read');
+	PERFORM acs_permission__grant_permission(v_menu, v_proman, 'read');
+	PERFORM acs_permission__grant_permission(v_menu, v_employees, 'read');
+	PERFORM acs_permission__grant_permission(v_menu, v_companies, 'read');
+
+
 	-- Rename menu created by intranet-contacts 
-	update im_menus set name = 'Contacts' where package_name = 'intranet-contacts' and name='CRM';
+	update im_menus set 
+		name = 'Contacts',
+		parent_menu_id = v_crm_menu
+	where package_name = 'intranet-contacts' and name='CRM';
 
 	return 0;
 end; $BODY$ language 'plpgsql';
