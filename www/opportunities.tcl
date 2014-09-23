@@ -498,8 +498,8 @@ set mine_p_options [list \
 
 set admin_html "<ul>"
 
-if {[im_permission $current_user_id "add_projects"]} {
-    append admin_html "<li><a href=\"[export_vars -base "/intranet-crm-opportunities/new" {return_url}]"> [lang::message::lookup "" intranet-crm-opportunities.AddANewOpportunity "New Opportunity"]</a>\n"
+if { [im_permission $current_user_id "add_projects"] } {
+    append admin_html "<li><a href=\"[export_vars -base "/intranet-crm-opportunities/new" {return_url} ]\"> [lang::message::lookup "" intranet-crm-opportunities.AddANewOpportunity "New Opportunity"] </a></li>"
 }
 
 # Append user-defined menus
