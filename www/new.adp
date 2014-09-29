@@ -96,19 +96,19 @@ function removeNewCompanyIframe(new_company_id) {
 	 $.ajax({
 		type: "GET",
 		url: "/intranet-rest/im_company/" + new_company_id,
-		data: "format=xml",
-		contentType: "application/xml; charset=utf-8",
-		dataType: "xml",
+		data: "format=json",
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
 		success: function(msg) {
-			// console.log('REST call for company succesful');
+
 			// Hide Button "Create new company"
 			$('#btn_loadNewCompany').hide();
 
 			// setting the span containing the company_name
-			$('#company_name').html($(msg).find('im_company').find('object_name').text() + '&nbsp;');
+			$('#company_name').html(msg['data'][0]['company_name'] + '&nbsp;');
 
 			// Even though disabled, we use this element to hold the current company_id. Add option, select it and hide element												   
-			$('#company_id').append('<option value=' + new_company_id + '>' + $(msg).find('im_company').find('object_name').text() + '</option>');
+			$('#company_id').append('<option value=' + new_company_id + '>' + msg['data'][0]['company_name'] + '</option>');
 			$('#company_id').val(new_company_id);
 			$('#company_id').hide();
 
@@ -119,8 +119,7 @@ function removeNewCompanyIframe(new_company_id) {
 			
    		},
 		error: function(err) {
-		       alert('error');
-		       // alert(err.toString());
+		       alert('Error reading Company' + err.toString());
 		       if (err.status == 200) {
 	                 ParseResult(err);
 		       } else { 
