@@ -18,6 +18,8 @@
         <maturity>0</maturity>
 
         <requires url="intranet-rest" version="4.0.5.0.0"/>
+        <requires url="intranet-reporting-dashboard" version="4.1.0.0.0"/>
+
         <provides url="intranet-crm-opportunities" version="0.1d"/>
 
         <callbacks>
