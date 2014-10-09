@@ -188,11 +188,11 @@ ad_form -extend -name $form_id -select_query {
     	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.BudgetCurrencyMissing "Please provide a currency for 'Presales Value'"]"
     }
 
-	# Make opportunity_sales_stage_id mandatory because we need is at an identifier to determine what project had been resulted out of a lead 
-	# Should be covered by DynField Attribute - just doublecheck in case this Dynfield is been removed 
-	if { ![info exists opportunity_sales_stage_id] || "" == $opportunity_sales_stage_id } {
-		ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.OpportunitySalesStageMissing "Please provide a value for 'Sales Stage'"]"
-	}
+    # Make opportunity_sales_stage_id mandatory because we need is at an identifier to determine what project had been resulted out of a lead 
+    # Should be covered by DynField Attribute - just doublecheck in case this Dynfield is been removed 
+    if { ![info exists opportunity_sales_stage_id] || "" == $opportunity_sales_stage_id } {
+	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.OpportunitySalesStageMissing "Please provide a value for 'Sales Stage'"]"
+    }
 	
     # Basic Sanity checks to avoid that user creates double entries 
     set project_name_exist_p [db_string get_data " select count(*) from im_projects where project_name = :project_name" -default 0]
@@ -290,6 +290,19 @@ ad_form -extend -name $form_id -select_query {
 	set company_contact_id_sql ", company_contact_id = :company_contact_id"
     }
 
+    if { [info exists company_contact_id] && "" == $company_contact_id } {
+        set company_contact_id_sql ", company_contact_id = null"
+    } else {
+        set company_contact_id_sql ", company_contact_id = :company_contact_id"
+    }
+
+    # Adjust project_status_id 
+    if { [lsearch [im_sub_categories 84018] $opportunity_sales_stage_id] != -1 } {
+        set opportunity_sales_stage_id_sql ", project_status_id = [im_project_status_closed]"
+    } else {
+	set opportunity_sales_stage_id_sql ", project_status_id = [im_project_status_potential]"
+    }
+
     set opportunity_update_sql "
         update im_projects set
                 project_name =  	:project_name,
@@ -297,6 +310,7 @@ ad_form -extend -name $form_id -select_query {
                 project_lead_id = 	:opportunity_owner_id,
                 company_id =    	:company_id
 		$company_contact_id_sql
+		$opportunity_sales_stage_id_sql
         where
                 project_id = :opportunity_id
     "
