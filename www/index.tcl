@@ -44,8 +44,8 @@ set sub_navbar [im_crm_navbar "none" "/intranet-crm-opportunities/index" "" "" [
 set admin_html ""
 
 
-if {[im_permission $current_user_id "add_projects"]} {
-    append admin_html "<li><a href=\"[export_vars -base "/intranet-crm-opportunities/new" {return_url}]\"> [lang::message::lookup "" intranet-crm-opportunities.AddANewOpportunity "New Opportunity"]</a>\n"
+if { [im_permission $current_user_id "add_projects"] } {
+    append admin_html "<li><a href='[export_vars -base "/intranet-crm-opportunities/new" {return_url}]'>[lang::message::lookup "" intranet-crm-opportunities.AddANewOpportunity "New Opportunity"]</a>\n"
 }
 
 set admin_html "<ul>$admin_html</ul>"

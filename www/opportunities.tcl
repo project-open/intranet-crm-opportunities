@@ -25,7 +25,7 @@ ad_page_contract {
     { mine_p "f" }
     { project_type_id:integer 0 } 
     { company_id:integer 0 } 
-    { opportunity_sales_stage_id 0 }
+    { opportunity_sales_stage_id 84021 }
     { start_idx:integer 0 }
     { start_date "" }
     { end_date "" }
@@ -198,16 +198,28 @@ if {[im_permission $current_user_id "view_opportunities_all"]} {
 }
 
 set company_options [im_company_options -include_empty_p 1 -include_empty_name $all_l10n -status "CustOrIntl"]
-set sales_stage_options [im_category_get_key_value_list "Intranet Opportunity Sales Stage"] 
+
+# set sales_stage_options [im_category_get_key_value_list "Intranet Opportunity Sales Stage"] 
+set sales_stage_options [im_category_get_key_value_indent_list "Intranet Opportunity Sales Stage"] 
 set sales_stage_options [linsert $sales_stage_options 0 [list 0 $all_l10n]]
 
 set sales_stage_options_list [list]
 foreach { list_element } $sales_stage_options {
+
     set value [lindex $list_element 0]
-    set text [lindex $list_element 1]
+    set text "[lindex $list_element 1]"
+
+    # l10n 
     regsub -all " " $text "_" category_key
     set text [lang::message::lookup "" intranet-crm-opportunities.$category_key $text]
-    lappend sales_stage_options_list [list $text $value]
+    
+    # indention 
+    set indent_char ""
+    for {set i 0} {$i <= [lindex $list_element 2]} {incr i} {
+	append indent_char "&nbsp;"
+    }
+
+    lappend sales_stage_options_list [list "${indent_char}${text}" $value]
 }
 
 if {!$filter_advanced_p} {
@@ -215,7 +227,7 @@ if {!$filter_advanced_p} {
 	{company_id:text(select),optional {label \#intranet-core.Customer\#} {options $company_options}}
     }
     ad_form -extend -name $form_id -form {
-        {opportunity_sales_stage_id:text(select),optional {label \#intranet-crm-opportunities.OpportunitySalesStage\#} {options $sales_stage_options_list}}
+        {opportunity_sales_stage_id:text(select),optional {label \#intranet-crm-opportunities.OpportunitySalesStage\#} {options $sales_stage_options_list} {value $opportunity_sales_stage_id} }
     }
 }
 
@@ -382,10 +394,12 @@ if {"t" == $mine_p} {
 }
 
 # Status 
+set status_where ""
 if { 0 != $opportunity_sales_stage_id } {
     set status_where "and p.opportunity_sales_stage_id in ([join [im_sub_categories $opportunity_sales_stage_id] ","])"
 } else {
-    set status_where "and (p.opportunity_sales_stage_id not in ([join [im_sub_categories 84018] ","]) or p.opportunity_sales_stage_id is null)"
+    # removed: Default is now status "Open", if opportunity_sales_stage_id = "" then
+    # set status_where "and (p.opportunity_sales_stage_id not in ([join [im_sub_categories 84018] ","]) or p.opportunity_sales_stage_id is null)"
 }
 
 #Mine 
