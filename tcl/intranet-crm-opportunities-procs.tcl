@@ -157,6 +157,28 @@ ad_proc -public im_opportunity_base_data_component {
 }
 
 
+ad_proc -public im_opportunity_pipeline {
+    {-diagram_width 300 }
+    {-diagram_height 300 }
+    {-diagram_caption "" }
+} {
+    Returns a HTML code with a Sencha diagram showing
+    the current opportunities, together with
+    presales_probability and presales_value.
+} {
+    # Sencha check and permissions
+    if {![im_sencha_extjs_installed_p]} { return "" }
+    im_sencha_extjs_load_libraries
+
+    set params [list \
+		    [list diagram_width $diagram_width] \
+		    [list diagram_height $diagram_height] \
+		    [list diagram_caption $diagram_caption]
+    ]
+
+    set result [ad_parse_template -params $params "/packages/intranet-crm-opportunities/lib/opportunity-pipeline"]
+    return [string trim $result]
+}
 
 
 # ----------------------------------------------------------------------
