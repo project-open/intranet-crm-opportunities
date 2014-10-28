@@ -17,6 +17,10 @@
     <td><%=[lang::message::lookup "" intranet-crm-opportunities.OpportunityOwner "Owner"]%></td>
     <td>@im_render_user_id;noquote@</td>
   </tr>
+  <tr>
+    <td><%=[lang::message::lookup "" intranet-crm-opportunities.Created "Created"]%></td>
+    <td>@creation_date;noquote@</td>
+  </tr>
   <if @project_dynfield_attribs:rowcount@ gt 0>
     <multiple name="project_dynfield_attribs">
       <if @project_dynfield_attribs.value@ not nil>

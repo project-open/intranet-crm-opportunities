@@ -291,6 +291,7 @@ switch [string tolower $order_by] {
     "weighted value" { set order_by_clause "order by opportunity_weighted_value DESC" }
     "owner" { set order_by_clause "order by opportunity_owner" }
     "campaign" { set order_by_clause "order by campaign_name" }
+    "created" { set order_by_clause "order by creation_date DESC" }
     default {
 	if {$view_order_by_clause != ""} {
 	    set order_by_clause "order by $view_order_by_clause"
@@ -454,14 +455,17 @@ FROM
 		im_name_from_user_id(project_lead_id) as opportunity_owner,
 		(select project_name from im_projects where project_id = opportunity_campaign_id) as campaign_name,
                 c.company_name,
-                to_char(p.start_date, 'YYYY-MM-DD') as start_date_formatted
+                to_char(p.start_date, 'YYYY-MM-DD') as start_date_formatted,
+		to_char(o.creation_date, 'YYYY-MM-DD') as creation_date
 		$extra_select
         FROM
                 $perm_sql p,
-                im_companies c
+                im_companies c,
+		acs_objects o
 		$extra_from
         WHERE
                 p.company_id = c.company_id
+		and o.object_id = p.project_id
 		$project_type_where_clause
                 $where_clause
 		$extra_where

@@ -1,12 +1,12 @@
 ad_page_contract {
-    The display for the project base data 
-    @author iuri sampaio (iuri.sampaio@gmail.com)
-    @date 2010-10-07
-
+    Display 'Opportunity Base Data' 
+    @author iuri.sampaio@gmail.com
+    @author klaus.hofeditz@project-open.com
+    @date 2014-10-07
 } 
 
 # ---------------------------------------------------------------------
-# Get Everything about the project
+# Get Everything about the Opportunity
 # ---------------------------------------------------------------------
 
 
@@ -45,12 +45,13 @@ set current_user_id $user_id
 
 
 # ---------------------------------------------------------------------
-# Project Base Data
+# Opportunity Base Data
 # ---------------------------------------------------------------------  
 
 set im_company_link_tr [im_company_link_tr $user_id $company_id $company_name "[_ intranet-core.Client]"]
 set im_render_user_id [im_render_user_id $project_lead_id $project_lead $user_id $opportunity_id]
 set im_render_company_contact_id [im_render_user_id $company_contact_id $company_contact $user_id $opportunity_id]
+set creation_date [db_string get_data "select to_char(creation_date, 'YYYY-MM-DD') from acs_objects where object_id = :opportunity_id " -default ""]
 
 # ---------------------------------------------------------------------
 # Add DynField Columns to the display
