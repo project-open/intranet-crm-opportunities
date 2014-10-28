@@ -64,8 +64,7 @@ begin
 		from	user_tab_columns
 		where	lower(column_name) in (
 				'presales_value_currency', 'opportunity_priority_id', 
-				'opportunity_sales_stage_id', 'opportunity_close_probability',
-				'opportunity_campaign_id'
+				'opportunity_sales_stage_id', 'opportunity_campaign_id'
 			)
 	LOOP
 		select attribute_id into v_dynfield_attribute_id

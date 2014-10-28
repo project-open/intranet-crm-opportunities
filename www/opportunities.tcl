@@ -287,7 +287,7 @@ switch [string tolower $order_by] {
     "contact" { set order_by_clause "order by lower(contact_name)" }
     "sales stage" { set order_by_clause "order by opportunity_sales_stage_id" }
     "presales value" { set order_by_clause "order by presales_value DESC" }
-    "probability (%)" { set order_by_clause "order by opportunity_close_probability DESC" }
+    "probability (%)" { set order_by_clause "order by presales_probability DESC" }
     "weighted value" { set order_by_clause "order by opportunity_weighted_value DESC" }
     "owner" { set order_by_clause "order by opportunity_owner" }
     "campaign" { set order_by_clause "order by campaign_name" }
@@ -436,19 +436,8 @@ SELECT
 FROM
         ( SELECT
                 p.*,
-		CASE p.presales_value is null
-                WHEN true THEN
-                        '0.00' 
-                ELSE
-                        trim(to_char(p.presales_value,'99999999999999,999D99'))
-                END as presales_value_pretty,
-
-		CASE p.presales_value is null or opportunity_close_probability is null  
-                WHEN true THEN
-                        '0' 
-                ELSE
-                        (presales_value * opportunity_close_probability / 100)
-                END as opportunity_weighted_value,
+		trim(to_char(coalesce(p.presales_value,0.0), '99999999999999,999D99')) as presales_value_pretty,
+		coalesce(presales_value,0.0) * coalesce(presales_probability,0) / 100.0 as opportunity_weighted_value,
 		round((p.presales_value * im_exchange_rate(now()::date,p.presales_value_currency, :default_currency)) :: numeric,2) as presales_value_converted,
 		p.project_id as opportunity_id,
 		im_name_from_user_id(company_contact_id) as contact_name, 
@@ -596,9 +585,9 @@ db_foreach projects_info_query $selection -bind $form_vars {
 
     # set Weighted Value and build sum 
     set opportunity_weighted_value [lc_numeric "0" "%.2f" "en_US"]
-    if { [info exists presales_value_converted] && "" != $presales_value_converted && [info exists opportunity_close_probability] && "" != $opportunity_close_probability} {
-	set opportunity_weighted_value [lc_numeric [expr $presales_value * $opportunity_close_probability / 100] "%.2f" "en_US"]
-	set weighted_value_converted [expr $presales_value_converted * $opportunity_close_probability / 100]
+    if { [info exists presales_value_converted] && "" != $presales_value_converted && [info exists presales_probability] && "" != $presales_probability} {
+	set opportunity_weighted_value [lc_numeric [expr $presales_value * $presales_probability / 100] "%.2f" "en_US"]
+	set weighted_value_converted [expr $presales_value_converted * $presales_probability / 100]
 	set weighted_value_sum_converted [expr $weighted_value_converted + $weighted_value_sum_converted]
     } 
 

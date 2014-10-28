@@ -238,6 +238,8 @@ Ext.onReady(function() {
     Ext.QuickTips.init();
 
     var projectMainStore = Ext.create('PO.store.project.ProjectMainStore');
+
+    // Use a "store coodinator" in order to launchTreePanel() after all stores have been loaded
     var coordinator = Ext.create('PO.controller.StoreLoadCoordinator', {
         stores: [
             'projectMainStore'
@@ -253,6 +255,18 @@ Ext.onReady(function() {
             }
         }
     });
+
+    // Load stores that need parameters
+    projectMainStore.getProxy().extraParams = { 
+	format: "json",
+	query: "parent_id is null and project_type_id = 102"
+    };
+    projectMainStore.load({
+	    callback: function() {
+		console.log('opportunity-pipeline: PO.store.project.ProjectMainStore: loaded');
+	    }
+	});
+
 });
 </script>
 </div>

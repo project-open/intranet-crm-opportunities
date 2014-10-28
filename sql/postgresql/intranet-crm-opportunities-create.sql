@@ -219,7 +219,7 @@ SELECT im_component_plugin__new (
 	200,					-- sort_order
 	'im_dashboard_histogram_sql -diagram_width 300 -sql "
 		select	im_category_from_id(p.project_status_id) as project_status,
-		        sum(coalesce(presales_probability,project_budget,0) * coalesce(presales_value,0)) as value
+		        sum(coalesce(presales_probability,0) * coalesce(presales_value,project_budget,0)) as value
 		from	im_projects p
 		where	p.parent_id is null and
 			p.project_status_id not in (select * from im_sub_categories(81))
@@ -244,19 +244,19 @@ SELECT im_component_plugin__new (
 	null,					-- view_name
 	100,					-- sort_order
 	'im_ad_hoc_query -format html -package_key intranet-cost "
-select
-	''<a href=/intranet/companies/view?company_id='' || cust.company_id || ''>'' || cust.company_name || ''</a>'' as company,
-	''<a href=/intranet/projects/view?project_id='' || p.project_id || ''>'' || p.project_name || ''</a>'' as opportunity,
-	p.presales_value,
-	p.presales_probability,
-	p.presales_value * p.presales_probability as weighted_value
-from	im_projects p,
-	im_companies cust
-where	p.parent_id is null and
-	p.project_type_id = 102 and
-	p.company_id = cust.company_id
-order by weighted_value DESC
-limit 10
+		select
+			''<a href=/intranet/companies/view?company_id='' || cust.company_id || ''>'' || cust.company_name || ''</a>'' as company,
+			''<a href=/intranet/projects/view?project_id='' || p.project_id || ''>'' || p.project_name || ''</a>'' as opportunity,
+			p.presales_value,
+			p.presales_probability,
+			p.presales_value * p.presales_probability as weighted_value
+		from	im_projects p,
+			im_companies cust
+		where	p.parent_id is null and
+			p.project_type_id = 102 and
+			p.company_id = cust.company_id
+		order by weighted_value DESC
+		limit 10
 "',   -- component_tcl
 	'lang::message::lookup "" intranet-crm-opportunities.Top_10_Opportunities "Top 10 Opportunities"'
 );
@@ -422,7 +422,7 @@ insert into im_view_columns (column_id, view_id, sort_order, column_name, column
 (98060,980,70,'Presales Value','"$presales_value_pretty $presales_value_currency"');
 
 insert into im_view_columns (column_id, view_id, sort_order, column_name, column_render_tcl) values
-(98070,980,80,'Probability (%)','$opportunity_close_probability %');
+(98070,980,80,'Probability (%)','$presales_probability %');
 
 insert into im_view_columns (column_id, view_id, sort_order, column_name, column_render_tcl) values
 (98080,980,90,'Weighted Value','"$opportunity_weighted_value $presales_value_currency"');
@@ -473,13 +473,73 @@ SELECT im_dynfield_widget__new (
 -- DynFields
 --
 
--- presales_value_currency 
+
+-- Enable presales_value
 create or replace function inline_0 ()
 returns integer as $BODY$
 declare
         v_dynfield_attribute_id           integer;
 begin
 
+        SELECT attribute_id into v_dynfield_attribute_id
+	FROM   im_dynfield_attributes where acs_attribute_id in (
+		select	attribute_id from acs_attributes where attribute_name = 'presales_value' and object_type = 'im_project'
+	       );
+
+	-- Delete dynfield map for "CRM Opportunity"
+	delete from im_dynfield_type_attribute_map
+	where	attribute_id = v_dynfield_attribute_id and
+		object_type_id = 102;
+
+	insert into im_dynfield_type_attribute_map (
+		attribute_id, object_type_id, display_mode
+	) values (
+		v_dynfield_attribute_id, 102, 'edit'
+	);
+
+        return 0;
+end;$BODY$ language 'plpgsql';
+select inline_0 ();
+drop function inline_0 ();
+
+
+-- Enable presales_probability
+create or replace function inline_0 ()
+returns integer as $BODY$
+declare
+        v_dynfield_attribute_id           integer;
+begin
+
+        SELECT attribute_id into v_dynfield_attribute_id
+	FROM   im_dynfield_attributes where acs_attribute_id in (
+		select	attribute_id from acs_attributes where attribute_name = 'presales_probability' and object_type = 'im_project'
+	       );
+
+	-- Delete dynfield map for "CRM Opportunity"
+	delete from im_dynfield_type_attribute_map
+	where	attribute_id = v_dynfield_attribute_id and
+		object_type_id = 102;
+
+	insert into im_dynfield_type_attribute_map (
+		attribute_id, object_type_id, display_mode
+	) values (
+		v_dynfield_attribute_id, 102, 'edit'
+	);
+
+        return 0;
+end;$BODY$ language 'plpgsql';
+select inline_0 ();
+drop function inline_0 ();
+
+
+
+
+-- presales_value_currency
+create or replace function inline_0 ()
+returns integer as $BODY$
+declare
+        v_dynfield_attribute_id           integer;
+begin
         SELECT im_dynfield_attribute_new (
 	        'im_project', 'presales_value_currency', 'Presales Value Currency', 'currencies', 'string', 'f', 10, 'f', 'im_projects'
         ) into v_dynfield_attribute_id ;
@@ -501,6 +561,7 @@ begin
 end;$BODY$ language 'plpgsql';
 select inline_0 ();
 drop function inline_0 ();
+
 
 
 -- opportunity_priority
@@ -589,37 +650,4 @@ begin
 end;$BODY$ language 'plpgsql';
 select inline_0 ();
 drop function inline_0 ();
-
-
--- opportunity_close_probability
-create or replace function inline_0 ()
-returns integer as $BODY$
-declare
-        v_dynfield_attribute_id           integer;
-begin
-
-        SELECT im_dynfield_attribute_new (
-               'im_project', 'opportunity_close_probability', 'Opportunity Close Probability', 'numeric', 'integer', 'f', 40, 'f', 'im_projects'
-        ) into v_dynfield_attribute_id;
-
-        RAISE NOTICE 'intranet-crm-opportunities-create.sql: Created Dynfield ''Opportunity Campaign'' -  v_dynfield_attribute_id: %',v_dynfield_attribute_id;
-
-        begin
-                alter table im_projects add column opportunity_close_probability integer;
-        exception when others then
-                raise notice 'intranet-crm-opportunities-create.sql: Could not create column ''opportunity_close_probability'', it might exist already ';
-        end;
-
-        -- Show only Dynfield only for sub type 'opportunity'
-        update im_dynfield_type_attribute_map set display_mode = 'none' where attribute_id = v_dynfield_attribute_id and object_type_id <> 102;
-
-        return 1;
-
-end;$BODY$ language 'plpgsql';
-select inline_0 ();
-drop function inline_0 ();
-
-
-
-
 

@@ -20,11 +20,11 @@ ad_page_contract {
     { project_path "" }
     { presales_value "" }
     { presales_value_currency "" }
+    { presales_probability 0 }
     { company_id:integer,optional } 
     { company_contact_id:integer,optional } 
     { opportunity_owner_id:integer,optional }
     { opportunity_sales_stage_id 0}
-    { opportunity_close_probability 0 }
     { opportunity_priority_id 0}
     { form_mode "edit" }
     { return_url "" }
@@ -242,6 +242,7 @@ ad_form -extend -name $form_id -select_query {
     set list_updates [list]
     if { [info exists company_contact_id] } {lappend list_updates "company_contact_id = :company_contact_id"}
     if { [info exists presales_value] } {lappend list_updates "presales_value = :presales_value"}
+    if { [info exists presales_probability] } {lappend list_updates "presales_probability = :presales_probability"}
     if { [info exists opportunity_owner_id] } {lappend list_updates "project_lead_id = :opportunity_owner_id"}
 
     if {[catch {
