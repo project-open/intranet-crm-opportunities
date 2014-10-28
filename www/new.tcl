@@ -279,9 +279,12 @@ ad_form -extend -name $form_id -select_query {
     # Update the Opportunity
     # -----------------------------------------------------------------
 
+    set presales_sql ""
     # If budget is provided, budget currency is mandatory 
     if { "" != $presales_value && "" == $presales_value_currency } {
 	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.BudgetCurrencyMissing "Please provide a value 'Presales Value Currency'"]"
+    } else {
+        set presales_sql ", presales_value = :presales_value, presales_value_currency = :presales_value_currency"
     }
 
     if { [info exists company_contact_id] && "" == $company_contact_id } {
@@ -311,6 +314,7 @@ ad_form -extend -name $form_id -select_query {
                 company_id =    	:company_id
 		$company_contact_id_sql
 		$opportunity_sales_stage_id_sql
+		$presales_sql
         where
                 project_id = :opportunity_id
     "
