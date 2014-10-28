@@ -66,8 +66,8 @@ function launchDiagram(){
     });
 
     var chart = new Ext.chart.Chart({
-        width: 300,
-        height: 300,
+        width: @diagram_width@,
+        height: @diagram_height@,
         animate: true,
         store: chartStore,
         renderTo: '@diagram_id@',
@@ -143,19 +143,23 @@ function launchDiagram(){
 
     var onSurfaceMouseMove = function(event, eOpts) {
         if (dndSpriteShadow == null) { return; }
-        // console.log("onSurfaceMouseMove: "+event.getXY());
+        console.log("onSurfaceMouseMove: "+event.getXY());
         var xy = event.getXY();
         var startXY = dndSpriteShadow.dndStartXY;
         dndSpriteShadow.setAttributes({
             x: xy[0] - startXY[0],
             y: xy[1] - startXY[1]
         }, true);
+
+	var box = this.bgRect.getBox();
+        console.log("onSurfaceMouseMove: x="+box.x+", y="+box.y+", width="+box.width+", height="+box.height);
+
     };
 
     var onSurfaceMouseUp = function(event, eOpts) {
-        if (dndSpriteShadow == null) { return; }
-        var xy = event.getXY();
         var surface = chart.surface;
+        var xy = event.getXY();
+        if (dndSpriteShadow == null) { return; }
 
         // Event coordinates relative to surface (why?)
         var offsetX = event.browserEvent.offsetX;
@@ -184,9 +188,18 @@ function launchDiagram(){
         if (isNaN(presales_probability)) { presales_probability = 0; }
         presales_value = presales_value + relValueX;
         presales_probability = presales_probability + relValueY;
+        if (presales_value < 0.0) { presales_value = 0.0; }
         if (presales_probability > 100.0) { presales_probability = 100.0; }
         if (presales_probability < 0.0) { presales_probability = 0.0; }
-        rec.set('presales_value', ""+presales_value);
+
+	// Check if we have left the chart.
+	// In this case we start the out-of-chart logic
+	if (presales_value > xAxis.to) {
+	    presales_value = xAxis.to * 2.0
+	}
+	
+	// Write values back to store
+	rec.set('presales_value', ""+presales_value);
         rec.set('presales_probability', ""+presales_probability);
         rec.save();
         console.log("onSurfaceMouseUp: pid="+project_id+", value="+presales_value+", prob="+presales_probability);
@@ -200,6 +213,11 @@ function launchDiagram(){
         this.remove(dndSpriteShadow, true);
         dndSpriteShadow = null;
         dndStart = null;
+    };
+
+    var onRightBorderSpriteMouseOver = function(sprite, event) {
+        if (dndSpriteShadow == null) { return; }
+        console.log("onRightBorderSpriteMouseOver: "+event.getXY());
     };
 
 
