@@ -19,7 +19,7 @@ Ext.require([
     'PO.store.project.ProjectMainStore'
 ]);
 
-var projectBaseUrl = "/intranet/projects/view?project_id=";
+var projectBaseUrl = "/intranet-crm-opportunities/view?opportunity_id=";
 
 function launchDiagram(){
     // Store of all main projects and project specific fields
@@ -70,7 +70,6 @@ function launchDiagram(){
         height: @diagram_height@,
         animate: true,
         store: chartStore,
-        renderTo: '@diagram_id@',
         axes: [{
             type: 'Numeric',
 	    title: 'Probability (%)',
@@ -240,6 +239,41 @@ function launchDiagram(){
     surface.on("mousemove", onSurfaceMouseMove, surface);
     surface.on("mouseup", onSurfaceMouseUp, surface);
 
+
+    // Main panel with selection
+    Ext.create('widget.panel', {
+        width: @diagram_width@,
+        height: @diagram_height@,
+        title: '@diagram_title@',
+	renderTo: '@diagram_id@',
+        layout: 'fit',
+	header: false,
+        tbar: [
+	    {
+		xtype: 'combo',
+		editable: false,
+		// fieldLabel: '<%=[lang::message::lookup "" intranet-reporting-dashboard.Interval Interval]%>',
+		store: topCustomersIntervalStore,
+		mode: 'local',
+		displayField: 'display',
+		valueField: 'value',
+		triggerAction: 'all',
+		width: 150,
+		forceSelection: true,
+		value: 'all_time',
+		listeners:{select:{fn:function(combo, comboValues) {
+		    var value = comboValues[0].data.value;
+		    var extraParams = topCustomersStore.getProxy().extraParams;
+		    extraParams.diagram_interval = value;
+		    topCustomersStore.load();
+		}}}
+            }
+	],
+        items: topCustomersChart
+    });
+
+
+    
 };
 
 Ext.onReady(function() {
