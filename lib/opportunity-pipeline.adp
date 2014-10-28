@@ -84,7 +84,14 @@ function launchDiagram(){
 	    title: 'Value (@default_currency@)',
             position: 'bottom', 
             fields: ['x_axis'],
-            minimum: 0
+            minimum: 0,
+	    label: {
+		renderer: function(v){
+		    if (v > 1000000) { return Math.round(v / 1000000.0)+"M"; }
+		    if (v > 1000) { return Math.round(v / 1000.0)+"K"; }
+		    return v
+		}
+	    }
         }],
         series: [{
             type: 'scatter',
@@ -112,8 +119,8 @@ function launchDiagram(){
                 renderer: function(storeItem, item) {
                     var title = "<a href=\"" + projectBaseUrl + storeItem.get('project_id') + '\">' + 
 			storeItem.get('caption') + '</a>' + '<br>' + 
-                        '@value_l10n@: ' + parseFloat(storeItem.get('x_axis')).toFixed(1) + ', ' + 
-                        '@prob_l10n@:' + parseFloat(storeItem.get('y_axis')).toFixed(1) + '%';
+                        '@value_l10n@: ' + parseInt(storeItem.get('x_axis')) + ', ' + 
+                        '@prob_l10n@:' + parseInt(storeItem.get('y_axis')) + '%';
                     this.setTitle(title);
                 }
             }
@@ -186,17 +193,17 @@ function launchDiagram(){
         var presales_probability = parseFloat(rec.get('presales_probability'));
         if (isNaN(presales_value)) { presales_value = 0; }
         if (isNaN(presales_probability)) { presales_probability = 0; }
-        presales_value = presales_value + relValueX;
-        presales_probability = presales_probability + relValueY;
-        if (presales_value < 0.0) { presales_value = 0.0; }
-        if (presales_probability > 100.0) { presales_probability = 100.0; }
-        if (presales_probability < 0.0) { presales_probability = 0.0; }
+        presales_value = Math.round((presales_value + relValueX) / 100.0) * 100;
+        presales_probability = Math.round(presales_probability + relValueY);
+        if (presales_value < 0.0) { presales_value = 0; }
+        if (presales_probability > 100.0) { presales_probability = 100; }
+        if (presales_probability < 0.0) { presales_probability = 0; }
 
 	// Check if we have left the chart.
 	// In this case we start the out-of-chart logic
 	if (presales_value > xAxis.to) {
-	    presales_value = xAxis.to * 2.0;
-	    
+	    presales_value = xAxis.to * 2;
+	    Ext.Msg.alert('Move outside the chart area', "Duplicated value to '"+presales_value+"'.");
 	}
 	
 	// Write values back to store
