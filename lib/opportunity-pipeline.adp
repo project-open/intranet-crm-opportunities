@@ -195,7 +195,8 @@ function launchDiagram(){
 	// Check if we have left the chart.
 	// In this case we start the out-of-chart logic
 	if (presales_value > xAxis.to) {
-	    presales_value = xAxis.to * 2.0
+	    presales_value = xAxis.to * 2.0;
+	    
 	}
 	
 	// Write values back to store
