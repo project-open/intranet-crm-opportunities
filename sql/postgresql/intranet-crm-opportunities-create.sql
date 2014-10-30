@@ -224,7 +224,7 @@ SELECT im_component_plugin__new (
 	'/intranet-crm-opportunities/index',	-- page_url
 	null,					-- view_name
 	100,					-- sort_order
-	'im_ad_hoc_query -format html -package_key intranet-cost "
+	'im_ad_hoc_query -format html -package_key intranet-crm-opportunities "
 		select
 			''<a href=/intranet/companies/view?company_id='' || cust.company_id || ''>'' || cust.company_name || ''</a>'' as company,
 			''<a href=/intranet/projects/view?project_id='' || p.project_id || ''>'' || p.project_name || ''</a>'' as opportunity,
