@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <message_catalog package_key="intranet-crm-opportunities" locale="en_US" charset="ISO-8859-1">
-   <msg key="OpportunityCustomer">Customer</msg>
-   <msg key="OpportunityCustomerContact">Contact</msg>
-   <msg key="OpportunityOwner">Owner</msg>
-   <msg key="OpportunityPriority">Priority</msg>
-   <msg key="OpportunityBudget">Budget</msg>
-   <msg key="OpportunityBudgetCurrency">Currency</msg>
-   <msg key="OpportunitySalesStage">Sales Stage</msg>
+
+  <msg key="Ad_hoc_company">Customer</msg>
+  <msg key="Ad_hoc_opportunity">Opportunity</msg>
+  <msg key="Ad_hoc_presales_probability">Probability</msg>
+  <msg key="Ad_hoc_presales_value">Value</msg>
+  <msg key="Ad_hoc_weighted_value">Weighted Value</msg>
+  <msg key="AddANewOpportunity">New Opportunity</msg>
+  <msg key="All">All</msg>
+  <msg key="Closed">Closed</msg>
+  <msg key="Closed_Lost">Closed Lost</msg>
+  <msg key="Closed_Won">Closed Won</msg>
+  <msg key="FilterOpportunities">Filter Opportunities</msg>
+  <msg key="Id">Id</msg>
+  <msg key="LeadQueue">Queue</msg>
+  <msg key="Needs_Analysis">Needs Analysis</msg>
+  <msg key="Open">Open</msg>
+  <msg key="Opportunities">Opportunities</msg>
+  <msg key="OpportunityPipeline">Opportunity Pipeline</msg>
+  <msg key="OpportunitySalesStage">Sales Stage</msg>
+  <msg key="Perception_Analysis">Perception Analysis</msg>
+  <msg key="PresalesValueSum">Presales Value Sum</msg>
+  <msg key="Prospecting">Prospecting</msg>
+  <msg key="Qualification">Qualification</msg>
+  <msg key="Sales_Pipeline_by_Number">Opportunities by Number</msg>
+  <msg key="Sales_Pipeline_by_Volume">Opportunities by Volume</msg>
+  <msg key="Top_10_Opportunities">Top 10 Opportunities</msg>
+  <msg key="Value_Proposition">Value Proposition</msg>
+  <msg key="WeightedValueSum">Weighted Value Sum</msg>
 </message_catalog>
