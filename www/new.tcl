@@ -77,8 +77,8 @@ if {$opportunity_exists_p} {
     }
 } else {
     # Does the current user has the right to create a new opportunity?
-    if {![im_permission $user_id add_opportunities]} {
-        ad_return_complaint 1 "<li>[_ intranet-core.lt_Insufficient_Privileg]: add_opportunities<br> [_ intranet-core.lt_You_are_not_authorize]</li>"
+    if {![im_permission $user_id add_projects]} {
+        ad_return_complaint 1 "<li>[_ intranet-core.lt_Insufficient_Privileg]: add_projects<br> [_ intranet-core.lt_You_are_not_authorize]</li>"
         return
     }
 }
@@ -113,7 +113,7 @@ template::element::create $form_id project_nr -optional \
     -label [lang::message::lookup "" intranet-core.OpportunityNumber "Opportunity Nr"] \
     -datatype text \
     -html {size 15} \
-    -value [im_next_opportunity_nr]
+    -value [im_next_project_nr]
 
 # company_id
 template::element::create $form_id company_id \

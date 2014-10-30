@@ -16,6 +16,7 @@ Ext.require([
     'Ext.grid.*',
     'Ext.tree.*',
     'PO.class.CategoryStore',
+    'PO.store.user.UserStore',
     'PO.store.project.ProjectMainStore'
 ]);
 
@@ -24,52 +25,78 @@ var projectBaseUrl = "/intranet-crm-opportunities/view?opportunity_id=";
 function launchDiagram(){
     // Store of all main projects and project specific fields
     var projectMainStore = Ext.StoreManager.get('projectMainStore');
+    var opportunityOwnerStore = Ext.StoreManager.get('opportunityOwnerStore');
+    opportunityOwnerStore.insert(0, Ext.create('PO.model.user.User', {
+	user_id: "",
+	first_names: 'All Opportunities',
+	last_name: ''
+    }));
 
     // Store of chart items with chart specific values x_axis, color, etc.
     var chartStore = Ext.create('Ext.data.JsonStore', {
-        fields: ['x_axis', 'y_axis', 'color', 'diameter', 'caption', 'project_id'],
+        fields: ['x_axis', 'y_axis', 'color', 'diameter', 'caption', 'project_id', 'project_lead_id'],
         data: []
     });
 
-    // Transform project values into chart values
-    projectMainStore.each(function (rec) {
+    // Store for the combo box with users responsible for opportunities
+    var pmStore = Ext.create('Ext.data.JsonStore', {
+        fields: ['user_id', 'user_name'],
+        data: []
+    });
 
-	// Only show projects of type "CRM Opportunity"
-	if ("102" != rec.get('project_type_id')) { return true; }
-
-	var on_track_status = rec.get('on_track_status_id');         // "66"=green, "67"=yellow, "68"=red, ""=undef
-        var presales_value = rec.get('presales_value');              // String with number
-        var presales_probability = rec.get('presales_probability');  // String with number
-        if ("NaN" == presales_value) { presales_value = 0; }
-        if ("" == presales_value) { presales_value = 0; }
-        if ("NaN" == presales_probability) { presales_probability = 0; }
-        if ("" == presales_probability) { presales_probability = 0; }
-        presales_value = parseFloat(presales_value);                 // Convert to float number
-        presales_probability = parseFloat(presales_probability);
-
-
-        var color = "white";
-        switch (on_track_status) {
-        case '66': color = "green"; break;
-        case '67': color = "orange"; break;
-        case '68': color = "red"; break;
-        }
-
-        chartStore.add({
-            x_axis: presales_value,
-            y_axis: presales_probability,
-            color: color,
-            diameter: 10,
-            caption: rec.get('project_name'),
-            project_id: rec.get('project_id')
+    // Write opportunity store values into a static local store in order to
+    // work around strange Sencha bug that the combo always reloads the store.
+    opportunityOwnerStore.each(function(rec) {
+        pmStore.add({
+            user_id: rec.get("user_id"),
+	    user_name: rec.get("first_names") + " " + rec.get("last_name")
         });
     });
+    
+    // Transform project values into chart values
+    var projectsToChartStore = function() {
+	chartStore.removeAll();
+	projectMainStore.each(function (rec) {
+
+	    // Only show projects of type "CRM Opportunity"
+	    if ("102" != rec.get('project_type_id')) { return true; }
+	    
+	    var on_track_status = rec.get('on_track_status_id');         // "66"=green, "67"=yellow, "68"=red, ""=undef
+            var presales_value = rec.get('presales_value');              // String with number
+            var presales_probability = rec.get('presales_probability');  // String with number
+            if ("NaN" == presales_value) { presales_value = 0; }
+            if ("" == presales_value) { presales_value = 0; }
+            if ("NaN" == presales_probability) { presales_probability = 0; }
+            if ("" == presales_probability) { presales_probability = 0; }
+            presales_value = parseFloat(presales_value);                 // Convert to float number
+            presales_probability = parseFloat(presales_probability);
+
+            var color = "white";
+            switch (on_track_status) {
+            case '66': color = "green"; break;
+            case '67': color = "orange"; break;
+            case '68': color = "red"; break;
+            }
+	    
+            chartStore.add({
+		x_axis: presales_value,
+		y_axis: presales_probability,
+		color: color,
+		diameter: 10,
+		caption: rec.get('project_name'),
+		project_id: rec.get('project_id'),
+		project_lead_id: rec.get('project_lead_id')
+            });
+	});
+    };
+    projectsToChartStore();
 
     var chart = new Ext.chart.Chart({
         width: @diagram_width@,
         height: @diagram_height@,
         animate: true,
         store: chartStore,
+	renderTo: '@diagram_id@',
         axes: [{
             type: 'Numeric',
 	    title: 'Probability (%)',
@@ -126,7 +153,45 @@ function launchDiagram(){
         }]
     });
 
-
+/*
+    // Main panel with selection
+    Ext.create('widget.panel', {
+	width: @diagram_width@,
+	height: @diagram_height@,
+	title: '@diagram_caption@',
+	layout: 'fit',
+	header: false,
+	tbar: [
+	    {
+		xtype: 'combo',
+		editable: false,
+		queryMode: 'local',
+		mode: 'local',
+		store: pmStore,
+		autoSelect: false,
+		displayField: 'user_name',
+		valueField: 'user_id',
+		width: 150,
+		value: "",
+		listeners:{select:{fn:function(combo, comboValues) {
+		    var value = comboValues[0].data.user_id;
+		    var extraParams = projectMainStore.getProxy().extraParams;
+		    delete extraParams.project_lead_id;
+    
+		    if ("" != value) {
+			chartStore.clearFilter();
+			chartStore.filter('project_lead_id', ""+value);
+		    } else {
+			chartStore.clearFilter();
+		    }
+		    chart.redraw(false);
+		}}}
+	    }
+	],
+	items: chart
+    });
+*/
+    
     // Drag - and - Drop variables: The DnD start position and the shape to move
     var dndSpriteShadow = null;
     
@@ -239,52 +304,21 @@ function launchDiagram(){
     surface.on("mousemove", onSurfaceMouseMove, surface);
     surface.on("mouseup", onSurfaceMouseUp, surface);
 
-
-    // Main panel with selection
-    Ext.create('widget.panel', {
-        width: @diagram_width@,
-        height: @diagram_height@,
-        title: '@diagram_title@',
-	renderTo: '@diagram_id@',
-        layout: 'fit',
-	header: false,
-        tbar: [
-	    {
-		xtype: 'combo',
-		editable: false,
-		// fieldLabel: '<%=[lang::message::lookup "" intranet-reporting-dashboard.Interval Interval]%>',
-		store: topCustomersIntervalStore,
-		mode: 'local',
-		displayField: 'display',
-		valueField: 'value',
-		triggerAction: 'all',
-		width: 150,
-		forceSelection: true,
-		value: 'all_time',
-		listeners:{select:{fn:function(combo, comboValues) {
-		    var value = comboValues[0].data.value;
-		    var extraParams = topCustomersStore.getProxy().extraParams;
-		    extraParams.diagram_interval = value;
-		    topCustomersStore.load();
-		}}}
-            }
-	],
-        items: topCustomersChart
-    });
-
-
-    
 };
 
 Ext.onReady(function() {
     Ext.QuickTips.init();
 
     var projectMainStore = Ext.create('PO.store.project.ProjectMainStore');
+    var opportunityOwnerStore = Ext.create('PO.store.user.UserStore', {
+	storeId: 'opportunityOwnerStore',
+    });
 
     // Use a "store coodinator" in order to launchTreePanel() after all stores have been loaded
     var coordinator = Ext.create('PO.controller.StoreLoadCoordinator', {
         stores: [
-            'projectMainStore'
+            'projectMainStore',
+	    'opportunityOwnerStore'
         ],
         listeners: {
             load: function() {
@@ -303,11 +337,14 @@ Ext.onReady(function() {
 	format: "json",
 	query: "parent_id is null and project_type_id = 102"
     };
-    projectMainStore.load({
-	    callback: function() {
-		console.log('opportunity-pipeline: PO.store.project.ProjectMainStore: loaded');
-	    }
-	});
+    projectMainStore.load();
+
+    // Load the list of Opportunity owners
+    opportunityOwnerStore.getProxy().extraParams = {
+	format: "json",
+	query: "user_id in (select project_lead_id from im_projects where parent_id is null and project_type_id = 102)"
+    };
+    opportunityOwnerStore.load();
 
 });
 </script>

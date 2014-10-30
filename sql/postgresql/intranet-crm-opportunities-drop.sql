@@ -20,16 +20,6 @@ delete from im_views where view_id = 980;
 
 
 
--- Delete privileges
-delete from acs_permissions where privilege in ('add_opportunities', 'view_opportunities_all', 'edit_opportunities_all');
-delete from acs_privilege_hierarchy where privilege in ('add_opportunities', 'view_opportunities_all', 'edit_opportunities_all');
-delete from acs_privilege_hierarchy where child_privilege in ('add_opportunities', 'view_opportunities_all', 'edit_opportunities_all');
-
-select acs_privilege__drop_privilege('add_opportunities');
-select acs_privilege__drop_privilege('view_opportunities_all');
-select acs_privilege__drop_privilege('edit_opportunities_all');
-
-
 
 -- Fix function
 create or replace function im_dynfield_widget__delete (integer) returns integer as '
@@ -40,7 +30,7 @@ BEGIN
 	delete from im_dynfield_widgets
 	where widget_id = p_widget_id;
 
-	-- Erase all the privileges
+	-- Erase all the permissions
 	delete from acs_permissions
 	where object_id = p_widget_id;
 

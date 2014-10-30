@@ -173,7 +173,7 @@ ad_form \
     -export {start_idx order_by how_many view_name filter_advanced_p}\
     -form {}
 
-if {[im_permission $current_user_id "view_opportunities_all"]} { 
+if {[im_permission $current_user_id "view_projects_all"]} { 
     # Mine/All
     set mine_p_options [list \
 			    [list $all_l10n "f" ] \
@@ -380,7 +380,7 @@ set perm_sql "
 # -- ---------------------------------------------------------- 
 
 # User can see all opportunities - no permissions
-if {[im_permission $user_id "view_opportunities_all"]} {
+if {[im_permission $user_id "view_projects_all"]} {
    set perm_sql "im_projects"
 }
 

@@ -20,27 +20,8 @@ update im_categories set enabled_p = 'f' where category_id in (102, 103);
 -- update im_categories set enabled_p = 'f' where category_id = '103';
 
 -----------------------------------------------------------
--- Permissions & Privileges
+-- Categories
 -----------------------------------------------------------
-
-select acs_privilege__create_privilege('add_opportunities','Add new Opportunity','');
-select acs_privilege__add_child('admin', 'add_opportunities');
-select im_priv_create('add_opportunities', 'P/O Admins');
-select im_priv_create('add_opportunities', 'Senior Managers');
-select im_priv_create('add_opportunities', 'Project Managers');
-select im_priv_create('add_opportunities', 'Employees');
-select im_priv_create('add_opportunities', 'Sales');
-
-select acs_privilege__create_privilege('view_opportunities_all','View all Opportunities','');
-select acs_privilege__add_child('admin', 'view_opportunities_all');
-select im_priv_create('view_opportunities_all', 'P/O Admins');
-select im_priv_create('view_opportunities_all', 'Senior Managers');
-select im_priv_create('view_opportunities_all', 'Sales');
-
-select acs_privilege__create_privilege('edit_opportunities_all','Edit all Opportunities','');
-select acs_privilege__add_child('admin', 'edit_opportunities_all');
-select im_priv_create('edit_opportunities_all', 'P/O Admins');
-select im_priv_create('edit_opportunities_all', 'Senior Managers');
 
 -- 84000-84009 - Intranet Opportunity Priority
 SELECT im_category_new(84000, '1 - Highest Priority', 'Intranet Opportunity Priority');
