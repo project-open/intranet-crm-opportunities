@@ -22,7 +22,7 @@ Ext.require([
 
 var projectBaseUrl = "/intranet-crm-opportunities/view?opportunity_id=";
 
-function launchDiagram(){
+function launchOpportunityPipelineDiagram(){
     // Store of all main projects and project specific fields
     var projectMainStore = Ext.StoreManager.get('projectMainStore');
     var opportunityOwnerStore = Ext.StoreManager.get('opportunityOwnerStore');
@@ -325,7 +325,7 @@ Ext.onReady(function() {
                 // Check if the application was launched before
                 if ("boolean" == typeof this.loadedP) { return; }
                 // Launch the actual application.
-                launchDiagram();
+                launchOpportunityPipelineDiagram();
                 // Mark the application as launched
                 this.loadedP = true;
             }
