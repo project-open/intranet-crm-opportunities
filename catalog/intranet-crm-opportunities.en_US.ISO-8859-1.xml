@@ -17,6 +17,9 @@
   <msg key="Needs_Analysis">Needs Analysis</msg>
   <msg key="Open">Open</msg>
   <msg key="Opportunities">Opportunities</msg>
+  <msg key="OpportunityCustomer">Customer</msg>
+  <msg key="OpportunityCustomerContact">Contact</msg>
+  <msg key="OpportunityOwner">Owner</msg>
   <msg key="OpportunityPipeline">Opportunity Pipeline</msg>
   <msg key="OpportunitySalesStage">Sales Stage</msg>
   <msg key="Perception_Analysis">Perception Analysis</msg>
