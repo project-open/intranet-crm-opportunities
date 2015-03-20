@@ -9,7 +9,7 @@
 # ---------------------------------------------------------------
 
 ad_page_contract {
-    Converts Lead to Consulting Project
+    Converts Lead to Gantt Project
     @param opportunity
 } {
     { opportunity_id 0 }
@@ -40,7 +40,7 @@ if {[catch {
 } err_msg]} {
     global errorInfo
     ns_log Error $errorInfo
-    ad_return_complaint 1  "[lang::message::lookup "" intranet-crm-opportunities.NotAbleToCreateConsultingProject "Not able to create Project"] $errorInfo"
+    ad_return_complaint 1  "[lang::message::lookup "" intranet-crm-opportunities.NotAbleToCreateGanttProject "Not able to create Project"] $errorInfo"
     return
 }
 
