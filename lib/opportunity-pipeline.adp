@@ -15,7 +15,7 @@ Ext.require([
     'Ext.data.*',
     'Ext.grid.*',
     'Ext.tree.*',
-    'PO.class.CategoryStore',
+    'PO.store.CategoryStore',
     'PO.store.user.UserStore',
     'PO.store.project.ProjectMainStore'
 ]);
