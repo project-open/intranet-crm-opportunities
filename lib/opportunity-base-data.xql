@@ -56,7 +56,7 @@
   <fullquery name="dynfield_attribs_sql">
     <querytext>
       select
-      		aa.pretty_name,
+      		aa.pretty_name as pretty_name_attribute,
       		aa.attribute_name,
 		w.*
       from
