@@ -260,6 +260,10 @@ ad_form -extend -name $form_id -select_query {
         -object_id $opportunity_id \
         -form_id $form_id
 
+    # User Exit & Audit/Call Back
+    im_user_exit_call project_create $opportunity_id
+    im_audit -object_type im_project -action after_create -object_id $opportunity_id -status_id $opportunity_sales_stage_id -type_id [im_project_type_opportunity] -debug_p 1
+    
 } -on_request {
 
 	template::element::set_properties $form_id opportunity_owner_id options [im_employee_options 1 ]
