@@ -47,7 +47,7 @@ set current_url [im_url_with_query]
 # Required for updating user 
 set auto_login [im_generate_auto_login -user_id [ad_conn user_id]]
 
-set default_currency [ad_parameter -package_id [im_package_cost_id] "DefaultCurrency" "" "EUR"]
+set default_currency [im_parameter -package_id [im_package_cost_id] "DefaultCurrency" "" "EUR"]
 
 if { ![info exists company_id] } { set company_id 0 }
 
