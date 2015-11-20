@@ -225,6 +225,6 @@ ad_form -extend -name $form_id -on_request {
     } err_msg]} {
 	set user_id 0
 	ad_return_complaint xx $err_msg
-	ns_log ERROR $err_msg
+	ns_log Error $err_msg
     }
 }
