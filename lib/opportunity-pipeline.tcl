@@ -19,7 +19,7 @@
 # Create a random ID for the diagram
 set diagram_id "sales_pipeline_[expr round(rand() * 100000000.0)]"
 
-set default_currency [im_parameter -package_id [im_package_cost_id] "DefaultCurrency" "" "EUR"]
+set default_currency [ad_parameter -package_id [im_package_cost_id] "DefaultCurrency" "" "EUR"]
 set value_l10n [lang::message::lookup "" intranet-core.Value Value]
 set prob_l10n [lang::message::lookup "" intranet-core.Probability Probability]
 

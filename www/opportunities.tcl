@@ -52,14 +52,14 @@ set today [lindex [split [ns_localsqltimestamp] " "] 0]
 set page_title  [lang::message::lookup "" intranet-crm-opportunities.Opportunities "Opportunities"]
 set context_bar [im_context_bar $page_title]
 set return_url [im_url_with_query]
-set default_currency [im_parameter -package_id [im_package_cost_id] "DefaultCurrency" "" "EUR"]
+set default_currency [ad_parameter -package_id [im_package_cost_id] "DefaultCurrency" "" "EUR"]
 
 # Create an action select at the bottom if the "view" has been designed for it...
 # set show_bulk_actions_p [string equal "project_timeline" $view_name]
 set show_bulk_actions_p 0
 
 if { [empty_string_p $how_many] || $how_many < 1 } {
-    set how_many [im_parameter -package_id [im_package_core_id] NumberResultsPerPage  "" 50]
+    set how_many [ad_parameter -package_id [im_package_core_id] NumberResultsPerPage  "" 50]
 }
 set end_idx [expr $start_idx + $how_many]
 

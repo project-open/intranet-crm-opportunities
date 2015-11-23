@@ -4,7 +4,9 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-	    
+	    var item = $("select[id*='opportunity_owner_id']").parent().parent();
+		$("select[id*='bd_lead_2']").parent().parent().before(item);
+		
 		<if @opportunity_exists_p@ eq "0">
 	    	// when page loaded, company is empty, so showing company_contact_id & button makes no sense	    
 	    	$('#company_contact_id').attr('disabled', true);
