@@ -12,7 +12,7 @@ ad_page_contract {
     @author frank.bergmann@project-open.com
 } {
 }
-set current_user_id [ad_maybe_redirect_for_registration]
+set current_user_id [auth::require_login]
 set page_title [lang::message::lookup "" intranet-crm-opportunities.CRM_Home "CRM Home"]
 set context_bar [im_context_bar $page_title]
 set return_url [im_url_with_query]

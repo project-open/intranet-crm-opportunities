@@ -1,4 +1,4 @@
-<table border=0>
+<table border="0">
 <tbody>
   <tr> 
     <td><%=[lang::message::lookup "" intranet-crm-opportunities.OpportunityName "Name"]%></td>
@@ -37,7 +37,7 @@
       <td> 
         <form action="/intranet-crm-opportunities/new" method="POST">
 	  <input type="hidden" name="return_url" value="@return_url@">
-	  <input type=submit value="#intranet-core.Edit#" name=submit3>
+	  <input type="submit" value="#intranet-core.Edit#" name="submit3">
 	  <input type="hidden" name="opportunity_id" value="@opportunity_id@">
         </form>
       </td>

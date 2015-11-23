@@ -44,7 +44,7 @@ ad_page_contract {
 
 set show_context_help_p 0
 
-set user_id [ad_maybe_redirect_for_registration]
+set user_id [auth::require_login]
 set admin_p [im_is_user_site_wide_or_intranet_admin $user_id]
 set subsite_id [ad_conn subsite_id]
 set current_user_id $user_id
@@ -58,10 +58,10 @@ set default_currency [im_parameter -package_id [im_package_cost_id] "DefaultCurr
 # set show_bulk_actions_p [string equal "project_timeline" $view_name]
 set show_bulk_actions_p 0
 
-if { [empty_string_p $how_many] || $how_many < 1 } {
+if { $how_many eq "" || $how_many < 1 } {
     set how_many [im_parameter -package_id [im_package_core_id] NumberResultsPerPage  "" 50]
 }
-set end_idx [expr $start_idx + $how_many]
+set end_idx [expr {$start_idx + $how_many}]
 
 # Set the "menu_select_label" for the project navbar:
 # projects_open, projects_closed and projects_potential
@@ -267,10 +267,10 @@ if {$filter_advanced_p} {
 # ---------------------------------------------------------------
 
 set criteria [list]
-if { ![empty_string_p $opportunity_sales_stage_id] && $opportunity_sales_stage_id != 0 } {
+if { $opportunity_sales_stage_id ne "" && $opportunity_sales_stage_id != 0 } {
     lappend criteria "p.opportunity_sales_stage_id in ([join [im_sub_categories $opportunity_sales_stage_id] ","])"
 }
-if { ![empty_string_p $company_id] && $company_id != 0 } {
+if { $company_id ne "" && $company_id != 0 } {
     lappend criteria "p.company_id=:company_id"
 }
 if {"" != $start_date} {
@@ -293,29 +293,29 @@ switch [string tolower $order_by] {
     "campaign" { set order_by_clause "order by campaign_name" }
     "created" { set order_by_clause "order by creation_date DESC" }
     default {
-	if {$view_order_by_clause != ""} {
+	if {$view_order_by_clause ne ""} {
 	    set order_by_clause "order by $view_order_by_clause"
 	}
     }
 }
 
 set where_clause [join $criteria " and\n            "]
-if { ![empty_string_p $where_clause] } {
+if { $where_clause ne "" } {
     set where_clause " and $where_clause"
 }
 
 set extra_select [join $extra_selects ",\n\t"]
-if { ![empty_string_p $extra_select] } {
+if { $extra_select ne "" } {
     set extra_select ",\n\t$extra_select"
 }
 
 set extra_from [join $extra_froms ",\n\t"]
-if { ![empty_string_p $extra_from] } {
+if { $extra_from ne "" } {
     set extra_from ",\n\t$extra_from"
 }
 
 set extra_where [join $extra_wheres "and\n\t"]
-if { ![empty_string_p $extra_where] } {
+if { $extra_where ne "" } {
     set extra_where ",\n\t$extra_where"
 }
 
@@ -483,8 +483,8 @@ set total_in_limited [db_string total_in_limited "
 # Special case: FIRST the users selected the 2nd page of the results
 # and THEN added a filter. Let's reset the results for this case:
 while {$start_idx > 0 && $total_in_limited < $start_idx} {
-    set start_idx [expr $start_idx - $how_many]
-    set end_idx [expr $end_idx - $how_many]
+    set start_idx [expr {$start_idx - $how_many}]
+    set end_idx [expr {$end_idx - $how_many}]
 }
 set selection [im_select_row_range $sql $start_idx $end_idx]
 
@@ -520,7 +520,7 @@ append admin_html "</ul>"
 # ---------------------------------------------------------------
 
 # Set up colspan to be the number of headers + 1 for the # column
-set colspan [expr [llength $column_headers] + 1]
+set colspan [expr {[llength $column_headers] + 1}]
 set table_header_html ""
 
 # Format the header names with links that modify the
@@ -528,7 +528,7 @@ set table_header_html ""
 #
 set url "$action_url?"
 set query_string [export_ns_set_vars url [list order_by]]
-if { ![empty_string_p $query_string] } {
+if { $query_string ne "" } {
     append url "$query_string&"
 }
 
@@ -572,7 +572,7 @@ db_foreach projects_info_query $selection -bind $form_vars {
     set select_project_checkbox "<input type=checkbox name=select_project_id value=$project_id id=select_project_id,$project_id>"
 
     set url [im_maybe_prepend_http $url]
-    if { [empty_string_p $url] } {
+    if { $url eq "" } {
 	set url_string "&nbsp;"
     } else {
 	set url_string "<a href=\"$url\">$url</a>"
@@ -580,25 +580,25 @@ db_foreach projects_info_query $selection -bind $form_vars {
     
     # Build sum Presales Value
     if { [info exists presales_value_converted] && "" != $presales_value_converted} {
-	set presales_value_sum_converted [expr $presales_value_converted + $presales_value_sum_converted]
+	set presales_value_sum_converted [expr {$presales_value_converted + $presales_value_sum_converted}]
     }
 
     # set Weighted Value and build sum 
     set opportunity_weighted_value [lc_numeric "0" "%.2f" "en_US"]
     if { [info exists presales_value_converted] && "" != $presales_value_converted && [info exists presales_probability] && "" != $presales_probability} {
-	set opportunity_weighted_value [lc_numeric [expr $presales_value * $presales_probability / 100] "%.2f" "en_US"]
-	set weighted_value_converted [expr $presales_value_converted * $presales_probability / 100]
-	set weighted_value_sum_converted [expr $weighted_value_converted + $weighted_value_sum_converted]
+	set opportunity_weighted_value [lc_numeric [expr {$presales_value * $presales_probability / 100}] "%.2f" "en_US"]
+	set weighted_value_converted [expr {$presales_value_converted * $presales_probability / 100}]
+	set weighted_value_sum_converted [expr {$weighted_value_converted + $weighted_value_sum_converted}]
     } 
 
     # Append together a line of data based on the "column_vars" parameter list
-    set row_html "<tr$bgcolor([expr $ctr % 2])>\n"
+    set row_html "<tr$bgcolor([expr {$ctr % 2}])>\n"
     foreach column_var $column_vars {
 	append row_html "\t<td valign=top>"
 	set cmd "append row_html $column_var"
-	if [catch {
+	if {[catch {
 	    eval "$cmd"
-	} errmsg] {
+	} errmsg]} {
             global errorInfo
 	    ns_log Error "Error creating table based on Dynview:\n$errorInfo "
 	    im_feedback_add_message "config" $errorInfo "" "Minor error - some data might be missing due to misconfigured 'DynView'. Check error.log for more information." 
@@ -631,7 +631,7 @@ set statistics "
 </table>" 
 
 # Show a reasonable message when there are no result rows:
-if { [empty_string_p $table_body_html] } {
+if { $table_body_html eq "" } {
     set table_body_html "
         <tr><td colspan=$colspan><ul><li><b> 
 	[lang::message::lookup "" intranet-core.lt_There_are_currently_n "There are currently no entries matching the selected criteria"]
@@ -641,7 +641,7 @@ if { [empty_string_p $table_body_html] } {
 if { $end_idx < $total_in_limited } {
     # This means that there are rows that we decided not to return
     # Include a link to go to the next page
-    set next_start_idx [expr $end_idx + 0]
+    set next_start_idx [expr {$end_idx + 0}]
     set next_page_url "index?start_idx=$next_start_idx&amp;[export_ns_set_vars url [list start_idx]]"
 } else {
     set next_page_url ""
@@ -650,7 +650,7 @@ if { $end_idx < $total_in_limited } {
 if { $start_idx > 0 } {
     # This means we didn't start with the first row - there is
     # at least 1 previous row. add a previous page link
-    set previous_start_idx [expr $start_idx - $how_many]
+    set previous_start_idx [expr {$start_idx - $how_many}]
     if { $previous_start_idx < 0 } { set previous_start_idx 0 }
     set previous_page_url "index?start_idx=$previous_start_idx&amp;[export_ns_set_vars url [list start_idx]]"
 } else {
@@ -665,7 +665,7 @@ if { $start_idx > 0 } {
 # => include a link to go to the next page
 #
 if {$total_in_limited > 0 && $end_idx < $total_in_limited} {
-    set next_start_idx [expr $end_idx + 0]
+    set next_start_idx [expr {$end_idx + 0}]
     set next_page "<a href=index?start_idx=$next_start_idx&amp;[export_ns_set_vars url [list start_idx]]>Next Page</a>"
 } else {
     set next_page ""
@@ -676,7 +676,7 @@ if {$total_in_limited > 0 && $end_idx < $total_in_limited} {
 # => add a previous page link
 #
 if { $start_idx > 0 } {
-    set previous_start_idx [expr $start_idx - $how_many]
+    set previous_start_idx [expr {$start_idx - $how_many}]
     if { $previous_start_idx < 0 } { set previous_start_idx 0 }
     set previous_page "<a href=index?start_idx=$previous_start_idx&amp;[export_ns_set_vars url [list start_idx]]>Previous Page</a>"
 } else {

@@ -29,7 +29,7 @@ ad_page_contract {
 # ---------------------------------------------------------------------
 # Redirect if this is a task or a project 
 
-if {[exists_and_not_null opportunity_id]} {
+if {([info exists opportunity_id] && $opportunity_id ne "")} {
     set otype [db_string otype "select object_type from acs_objects where object_id = :opportunity_id" -default ""]
     if {"im_timesheet_task" == $otype} {
 	ad_returnredirect [export_vars -base "/intranet-timesheet2-tasks/new" {{form_mode display} {task_id $opportunity_id}}]
@@ -41,7 +41,7 @@ if {[exists_and_not_null opportunity_id]} {
 
 set show_context_help_p 0
 
-set user_id [ad_maybe_redirect_for_registration]
+set user_id [auth::require_login]
 set return_url [im_url_with_query]
 set current_url [ns_conn url]
 

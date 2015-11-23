@@ -31,7 +31,7 @@ ad_page_contract {
 # Defaults & Security
 # ------------------------------------------------------
 
-set current_user_id [ad_maybe_redirect_for_registration]
+set current_user_id [auth::require_login]
 
 # Check if current_user_id can create new users
 if {![im_permission $current_user_id add_users]} {
@@ -59,7 +59,7 @@ ad_form \
 #-- --------------------------------------
 
 # Append sub-type-dynfields (Salutation)
-if {[exists_and_not_null profile]} {
+if {([info exists profile] && $profile ne "")} {
     set profile_org $profile
 } else {
     set profile_org [list]
@@ -83,19 +83,19 @@ ad_form -extend -name $form_id -form {
     {company_id:text(hidden) {value $company_id}}
 }
 
-if { [lsearch -exact $dynfield_list "home_phone"] == -1 } { ad_form -extend -name $form_id -form { {home_phone:text(text),optional {label "[_ intranet-core.Home_phone]"} {html {size 30}}} }}
-if { [lsearch -exact $dynfield_list "work_phone"] == -1 } { ad_form -extend -name $form_id -form { {work_phone:text(text),optional {label "[_ intranet-core.Work_phone]"} {html {size 30}}} }}
-if { [lsearch -exact $dynfield_list "cell_phone"] == -1 } { ad_form -extend -name $form_id -form { {cell_phone:text(text),optional {label "[_ intranet-core.Cell_phone]"} {html {size 30}}} }}
-if { [lsearch -exact $dynfield_list "fax"] == -1 } { ad_form -extend -name $form_id -form { {fax:text(text),optional {label "[_ intranet-core.Fax]"} {html {size 30}}} }}
-if { [lsearch -exact $dynfield_list "aim_screen_name"] == -1 } { ad_form -extend -name $form_id -form { {aim_screen_name:text(text),optional {label "[_ intranet-core.Aim_Screen_Name]"} {html {size 30}}} }}
-if { [lsearch -exact $dynfield_list "icq_number"] == -1 } { ad_form -extend -name $form_id -form { {icq_number:text(text),optional {label "[_ intranet-core.ICQ_Number]"} {html {size 30}}} }}
-if { [lsearch -exact $dynfield_list "wa_line1"] == -1 } { ad_form -extend -name $form_id -form { {wa_line1:text(text),optional {label "[_ intranet-core.Work_address]"} {html {size 30}}} }}
-if { [lsearch -exact $dynfield_list "wa_line2"] == -1 } { ad_form -extend -name $form_id -form { {wa_line2:text(text),optional {label "[_ intranet-core.Work_address]"} {html {size 30}}} }}
-if { [lsearch -exact $dynfield_list "wa_city"] == -1 } { ad_form -extend -name $form_id -form { {wa_city:text(text),optional {label "[_ intranet-core.Work_City]"} {html {size 30}}} }}
-if { [lsearch -exact $dynfield_list "wa_state"] == -1 } { ad_form -extend -name $form_id -form { {wa_state:text(text),optional {label "[_ intranet-core.Work_State]"} {html {size 30}}} }}
-if { [lsearch -exact $dynfield_list "wa_postal_code"] == -1 } { ad_form -extend -name $form_id -form { {wa_postal_code:text(text),optional {label "[_ intranet-core.Work_Postal_Code]"} {html {size 30}}} }}
-if { [lsearch -exact $dynfield_list "wa_country_code"] == -1 } { ad_form -extend -name $form_id -form { {wa_country_code:text(select),optional {label "[_ intranet-core.Country]"} {options $country_options} } }}
-if { [lsearch -exact $dynfield_list "note"] == -1 } { ad_form -extend -name $form_id -form { {note:text(text),optional {label "[_ intranet-core.Users_Contact_Note]"} {html {size 50}}} }}
+if {"home_phone" ni $dynfield_list} { ad_form -extend -name $form_id -form { {home_phone:text(text),optional {label "[_ intranet-core.Home_phone]"} {html {size 30}}} }}
+if {"work_phone" ni $dynfield_list} { ad_form -extend -name $form_id -form { {work_phone:text(text),optional {label "[_ intranet-core.Work_phone]"} {html {size 30}}} }}
+if {"cell_phone" ni $dynfield_list} { ad_form -extend -name $form_id -form { {cell_phone:text(text),optional {label "[_ intranet-core.Cell_phone]"} {html {size 30}}} }}
+if {"fax" ni $dynfield_list} { ad_form -extend -name $form_id -form { {fax:text(text),optional {label "[_ intranet-core.Fax]"} {html {size 30}}} }}
+if {"aim_screen_name" ni $dynfield_list} { ad_form -extend -name $form_id -form { {aim_screen_name:text(text),optional {label "[_ intranet-core.Aim_Screen_Name]"} {html {size 30}}} }}
+if {"icq_number" ni $dynfield_list} { ad_form -extend -name $form_id -form { {icq_number:text(text),optional {label "[_ intranet-core.ICQ_Number]"} {html {size 30}}} }}
+if {"wa_line1" ni $dynfield_list} { ad_form -extend -name $form_id -form { {wa_line1:text(text),optional {label "[_ intranet-core.Work_address]"} {html {size 30}}} }}
+if {"wa_line2" ni $dynfield_list} { ad_form -extend -name $form_id -form { {wa_line2:text(text),optional {label "[_ intranet-core.Work_address]"} {html {size 30}}} }}
+if {"wa_city" ni $dynfield_list} { ad_form -extend -name $form_id -form { {wa_city:text(text),optional {label "[_ intranet-core.Work_City]"} {html {size 30}}} }}
+if {"wa_state" ni $dynfield_list} { ad_form -extend -name $form_id -form { {wa_state:text(text),optional {label "[_ intranet-core.Work_State]"} {html {size 30}}} }}
+if {"wa_postal_code" ni $dynfield_list} { ad_form -extend -name $form_id -form { {wa_postal_code:text(text),optional {label "[_ intranet-core.Work_Postal_Code]"} {html {size 30}}} }}
+if {"wa_country_code" ni $dynfield_list} { ad_form -extend -name $form_id -form { {wa_country_code:text(select),optional {label "[_ intranet-core.Country]"} {options $country_options} } }}
+if {"note" ni $dynfield_list} { ad_form -extend -name $form_id -form { {note:text(text),optional {label "[_ intranet-core.Users_Contact_Note]"} {html {size 50}}} }}
 
 ad_form -extend -name $form_id -on_request {
 

@@ -16,7 +16,7 @@ ad_page_contract {
 # Defaults & Security
 # ------------------------------------------------------
 
-set user_id [ad_maybe_redirect_for_registration]
+set user_id [auth::require_login]
 
 if {[catch {
     ns_return 200 text/html [db_string get_data "select count(*) from parties where email=:email" -default -1]
