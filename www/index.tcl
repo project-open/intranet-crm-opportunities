@@ -21,14 +21,6 @@ set return_url [im_url_with_query]
 set parent_menu_sql "select menu_id from im_menus where label='crm'"
 set parent_menu_id [util_memoize [list db_string parent_admin_menu $parent_menu_sql -default 0]]
 
-set menu_select_sql "
-        select  m.*
-        from    im_menus m
-        where   parent_menu_id = :parent_menu_id
-		and enabled_p = 't'
-                and im_object_permission_p(m.menu_id, :current_user_id, 'read') = 't'
-        order by sort_order"
-
 
 # ---------------------------------------------------------------
 # Sub-Navbar
@@ -42,79 +34,11 @@ set sub_navbar [im_crm_navbar "none" "/intranet-crm-opportunities/index" "" "" [
 # ---------------------------------------------------------------
 
 set admin_html ""
-
-
 if { [im_permission $current_user_id "add_projects"] } {
     append admin_html "<li><a href='[export_vars -base "/intranet-crm-opportunities/new" {return_url}]'>[lang::message::lookup "" intranet-crm-opportunities.AddANewOpportunity "New Opportunity"]</a>\n"
 }
 
 set admin_html "<ul>$admin_html</ul>"
-
-# ---------------------------------------------------------------
-# Format the Provider Document Creation Menu
-# ---------------------------------------------------------------
-
-set parent_menu_sql "select menu_id from im_menus where label= 'invoices_providers'"
-set parent_menu_id [util_memoize [list db_string parent_admin_menu $parent_menu_sql -default ""]]
-
-set menu_select_sql "
-        select  m.*
-        from    im_menus m
-        where   parent_menu_id = :parent_menu_id
-		and enabled_p = 't'
-                and im_object_permission_p(m.menu_id, :current_user_id, 'read') = 't'
-        order by sort_order
-"
-
-# Start formatting the menu bar
-set provider_menu "<ul>"
-set ctr 0
-db_foreach menu_select $menu_select_sql {
-    
-    ns_log Notice "im_sub_navbar: menu_name='$name'"
-    regsub -all " " $name "_" name_key
-    set wrench_url [export_vars -base "/intranet/admin/menus/index" {menu_id return_url}]
-    append provider_menu "<li><a href=\"$url\">[_ intranet-crm-opportunities.$name_key]</a>
-                              <a href='$wrench_url'>[im_gif wrench]</a></li>
-    "
-    incr ctr
-}
-append provider_menu "</ul>"
-set provider_ctr $ctr
-
-
-
-# ---------------------------------------------------------------
-# Format the Customer Document Creation Menu
-# ---------------------------------------------------------------
-
-set parent_menu_sql "select menu_id from im_menus where label= 'invoices_customers'"
-set parent_menu_id [util_memoize [list db_string parent_admin_menu $parent_menu_sql -default ""]]
-
-set menu_select_sql "
-        select  m.*
-        from    im_menus m
-        where   parent_menu_id = :parent_menu_id
-		and enabled_p = 't'
-                and im_object_permission_p(m.menu_id, :current_user_id, 'read') = 't'
-        order by sort_order
-"
-
-# Start formatting the menu bar
-set customers_menu "<ul>"
-set ctr 0
-db_foreach menu_select $menu_select_sql {
-    ns_log Notice "im_sub_navbar: menu_name='$name'"
-    regsub -all " " $name "_" name_key
-    set wrench_url [export_vars -base "/intranet/admin/menus/index" {menu_id return_url}]
-    append customers_menu "<li><a href=\"$url\">[_ intranet-crm-opportunities.$name_key]</a>
-                               <a href='$wrench_url'>[im_gif wrench]</a></li>
-    "
-    incr ctr
-}
-append customers_menu "</ul>"
-set customer_ctr $ctr
-
 
 
 
