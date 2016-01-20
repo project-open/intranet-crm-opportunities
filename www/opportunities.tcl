@@ -191,7 +191,7 @@ if {[im_permission $current_user_id "view_projects_all"]} {
     foreach g $managable_profiles { lappend user_select_groups [lindex $g 1] }
     set user_options [im_profile::user_options -profile_ids $user_select_groups]
     set user_options [linsert $user_options 0 [list $all_l10n ""]]
-    ad_form -extend -name $form_id -form {{user_id_from_search:text(select),optional {label \#intranet-core.With_Member\#} {options $user_options}}}
+    ad_form -extend -name $form_id -form {{user_id_from_search:text(select),optional {label #intranet-core.With_Member#} {options $user_options}}}
 
 } else {
     set mine_p "f"
