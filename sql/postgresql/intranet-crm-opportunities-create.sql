@@ -307,7 +307,6 @@ BEGIN
 	PERFORM acs_permission__grant_permission(v_crm_menu, v_senman, 'read');
 	PERFORM acs_permission__grant_permission(v_crm_menu, v_proman, 'read');
 	PERFORM acs_permission__grant_permission(v_crm_menu, v_employees, 'read');
-	PERFORM acs_permission__grant_permission(v_crm_menu, v_companies, 'read');
 
 	-- Create Opportunities
 	v_menu := im_menu__new (
@@ -329,7 +328,6 @@ BEGIN
 	PERFORM acs_permission__grant_permission(v_menu, v_senman, 'read');
 	PERFORM acs_permission__grant_permission(v_menu, v_proman, 'read');
 	PERFORM acs_permission__grant_permission(v_menu, v_employees, 'read');
-	PERFORM acs_permission__grant_permission(v_menu, v_companies, 'read');
 
 	-- Create Opportunities
 	v_menu := im_menu__new (
@@ -351,8 +349,6 @@ BEGIN
 	PERFORM acs_permission__grant_permission(v_menu, v_senman, 'read');
 	PERFORM acs_permission__grant_permission(v_menu, v_proman, 'read');
 	PERFORM acs_permission__grant_permission(v_menu, v_employees, 'read');
-	PERFORM acs_permission__grant_permission(v_menu, v_companies, 'read');
-
 
 	-- Rename menu created by intranet-contacts 
 	update im_menus set 
@@ -367,8 +363,6 @@ drop function inline_0 ();
 
 
 -- 
-
-
 
 -- reserved for intranet-crm-opportunities: 980-989
 -----------------------------------------------------------
