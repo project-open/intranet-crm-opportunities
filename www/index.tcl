@@ -1,17 +1,20 @@
 # /packages/intranet-crm-opportunities/www/index.tcl
 #
-# Copyright (C) 2003 - 2009 ]project-open[
+# Copyright (C) 2003 - 2016 ]project-open[
 #
 # All rights reserved. Please check
 # http://www.project-open.com/license/ for details.
 
 ad_page_contract {
-    Offers a menu to create new Invoices, Quotes, POs
-    and Bills
+
+    CRM Opportunities Landing Page 
 
     @author frank.bergmann@project-open.com
+    @author klaus.hofeditz@project-open.com
+
 } {
 }
+
 set current_user_id [auth::require_login]
 set page_title [lang::message::lookup "" intranet-crm-opportunities.CRM_Home "CRM Home"]
 set context_bar [im_context_bar $page_title]
@@ -27,7 +30,6 @@ set parent_menu_id [util_memoize [list db_string parent_admin_menu $parent_menu_
 # ---------------------------------------------------------------
 
 set sub_navbar [im_crm_navbar "none" "/intranet-crm-opportunities/index" "" "" [list] "crm_home"] 
-
 
 # ---------------------------------------------------------------
 # Format the admin menu

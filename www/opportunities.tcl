@@ -1,8 +1,7 @@
-# /packages/intranet-crm-opportunities/www/index.tcl
+# /packages/intranet-crm-opportunities/www/opportunities.tcl
 #
-# Copyright (C) 2014 various parties
+# Copyright (C) 2016 various parties
 # The software is based on ArsDigita ACS 3.4
-#
 
 # ---------------------------------------------------------------
 # 1. Page Contract
@@ -25,7 +24,7 @@ ad_page_contract {
     { mine_p "f" }
     { project_type_id:integer 0 } 
     { company_id:integer 0 } 
-    { opportunity_sales_stage_id 84021 }
+    { opportunity_sales_stage_id 84009 }
     { start_idx:integer 0 }
     { start_date "" }
     { end_date "" }
@@ -340,7 +339,7 @@ set deliver_date ""
 set invoice_date ""
 set close_date ""
 
-# Permissions 
+# Show all opportunities where user is a member of
 set perm_sql "
 	(
 	-- member projects
@@ -370,15 +369,6 @@ if {"t" == $mine_p} {
 	where	p.project_lead_id = :user_id
 		$where_clause
 	)"
-}
-
-# Status 
-set status_where ""
-if { 0 != $opportunity_sales_stage_id } {
-    set status_where "and p.opportunity_sales_stage_id in ([join [im_sub_categories $opportunity_sales_stage_id] ","])"
-} else {
-    # removed: Default is now status "Open", if opportunity_sales_stage_id = "" then
-    # set status_where "and (p.opportunity_sales_stage_id not in ([join [im_sub_categories 84018] ","]) or p.opportunity_sales_stage_id is null)"
 }
 
 #Mine 
@@ -436,10 +426,14 @@ FROM
 		$project_type_where_clause
                 $where_clause
 		$extra_where
-       		$status_where
 		$mine_where
 		$user_id_where
         ) projects
+
+
+
+
+
 $order_by_clause
 "
 
@@ -542,7 +536,13 @@ set weighted_value_sum_converted 0
 
 db_foreach projects_info_query $selection -bind $form_vars {
 
-#    if {"" == $project_id} { continue }
+    if { [lsearch -exact [im_sub_categories [im_opportunity_sales_stage_open]] $opportunity_sales_stage_id] >= 0 } {
+	set project_link "<a href=/intranet-crm-opportunities/create-project-from-opportunity?opportunity_id=$opportunity_id>[lang::message::lookup "" intranet-crm-opportunities.CreateProject "Create"]</a>"
+    } elseif { $opportunity_sales_stage_id == [im_opportunity_sales_stage_closed_won] } {
+	set project_link "<a href=/intranet-crm-opportunities/create-project-from-opportunity?opportunity_id=$opportunity_id>[lang::message::lookup "" intranet-crm-opportunities.SeeProject "See Project"]</a>"
+    } else {
+	set project_link "-"
+    }
 
     set project_type [im_category_from_id $project_type_id]
 
