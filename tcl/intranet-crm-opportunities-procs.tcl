@@ -10,7 +10,7 @@ ad_library {
 # Constant Functions
 # -----------------------------------------------------------
 
-ad_proc -public im_opportunity_sales_stage_open {} { return 84009} 
+ad_proc -public im_opportunity_sales_stage_open {} { return 84021} 
 ad_proc -public im_opportunity_sales_stage_prospecting {} { return 84010} 
 ad_proc -public im_opportunity_sales_stage_qualification {} { return 84011} 
 ad_proc -public im_opportunity_sales_stage_needs_analysis {} { return 84012}

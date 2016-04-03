@@ -24,7 +24,7 @@ ad_page_contract {
     { mine_p "f" }
     { project_type_id:integer 0 } 
     { company_id:integer 0 } 
-    { opportunity_sales_stage_id 84009 }
+    { opportunity_sales_stage_id 84021 }
     { start_idx:integer 0 }
     { start_date "" }
     { end_date "" }
