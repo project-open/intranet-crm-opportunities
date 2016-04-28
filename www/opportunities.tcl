@@ -380,7 +380,7 @@ if { "t" == $mine_p } {
 
 # With member
 if {0 != $user_id_from_search && "" != $user_id_from_search} {
-    set user_id_where "and p.project_id in (select object_id_one from acs_rels where object_id_two = :user_id_from_search)"
+    set user_id_where "and (p.project_id in (select object_id_one from acs_rels where object_id_two = :user_id_from_search) OR p.project_lead_id = :user_id_from_search)"
 } else {
     set user_id_where "and 1=1"
 }

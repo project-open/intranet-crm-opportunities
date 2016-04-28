@@ -65,6 +65,17 @@ ad_proc -public im_opportunity_pipeline {
 }
 
 
+ad_proc -public im_opportunity_user_component {
+    {-user_id}
+    {-number_opportunities_shown 5}
+} {
+    Returns opportunities a user is a member of 
+} {
+    set params [list [list user_id $user_id] [list number_opportunities_shown $number_opportunities_shown] ]
+    set result [ad_parse_template -params $params "/packages/intranet-crm-opportunities/lib/opportunity-user-data"]
+    return [string trim $result]
+}
+
 # ----------------------------------------------------------------------
 # Navigation Bar
 # ---------------------------------------------------------------------
