@@ -595,15 +595,15 @@ db_foreach projects_info_query $selection -bind $form_vars {
 }
 
 set statistics "
-<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">
+<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\">
 <tr>
 <td>&nbsp;&nbsp;&nbsp;</td>
-<td>[lang::message::lookup "" intranet-crm-opportunities.PresalesValueSum "Sum Presales Value"]: </td>
-<td>[lc_numeric $presales_value_sum_converted "%.2f" "en_US"] $default_currency</td>
+<td align='left'>[lang::message::lookup "" intranet-crm-opportunities.PresalesValueSum "Sum Presales Value"]: </td>
+<td align='right'>[lc_numeric $presales_value_sum_converted "%.2f" "en_US"] $default_currency</td>
 </tr>
 <tr>
 <td></td>
-<td align='right'>[lang::message::lookup "" intranet-crm-opportunities.WeightedValueSum "Sum Weighted Value"]: </td>
+<td align='left'>[lang::message::lookup "" intranet-crm-opportunities.WeightedValueSum "Sum Weighted Value"]: </td>
 <td align='right'>[lc_numeric $weighted_value_sum_converted "%.2f" "en_US"] $default_currency</td>
 </tr>
 </table>" 
