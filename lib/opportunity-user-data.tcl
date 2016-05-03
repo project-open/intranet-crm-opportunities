@@ -6,7 +6,7 @@
 # http://www.project-open.com/license/ for details.
 
 # ----------------------------------------------------------------------
-# Shows a portlet taht lists opportunities the user is a memeber of
+# Shows a portlet taht lists opportunities the user is a member of
 # ---------------------------------------------------------------------
 
 # The following variables are expected in the environment
@@ -33,7 +33,11 @@ set sql "
         where
                 p.project_id = o.object_id
                 and p.project_type_id = [im_project_type_opportunity]
-		and (p.project_id in (select object_id_two from acs_rels where object_id_one = :user_id) OR p.project_lead_id = :user_id)
+		and ((
+			(p.project_id in (select object_id_two from acs_rels where object_id_one = :user_id) OR p.project_lead_id = :user_id) 
+		) OR (
+			(p.project_id in (select object_id_one from acs_rels where object_id_two = :user_id and rel_type = 'im_biz_object_member') OR p.company_contact_id = :user_id)
+		))
 	order by 
 		o.creation_date DESC		
 	limit 
