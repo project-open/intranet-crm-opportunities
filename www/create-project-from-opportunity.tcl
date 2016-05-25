@@ -19,7 +19,7 @@ ad_page_contract {
 set user_id [auth::require_login]
 
 # Write Audit Trail
-im_project_audit -project_id $opportunity_id
+im_audit -object_id $opportunity_id
 
 set sql "
         update
