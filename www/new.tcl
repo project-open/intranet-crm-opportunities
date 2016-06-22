@@ -183,15 +183,22 @@ ad_form -extend -name $form_id -select_query {
 
 } -new_data {
 
+    if { $presales_probability < 0 || $presales_probability > 100} {
+	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.OpportunityPresalesProbabilityOutOfRange "Presales probability must be between 0 and 100"]"
+	ad_script_abort
+    }
+
     # If budget is provided, budget currency is mandatory 
     if { "" != $presales_value && "" == $presales_value_currency } {
     	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.BudgetCurrencyMissing "Please provide a currency for 'Presales Value'"]"
+	ad_script_abort
     }
 
     # Make opportunity_sales_stage_id mandatory because we need is at an identifier to determine what project had been resulted out of a lead 
     # Should be covered by DynField Attribute - just doublecheck in case this Dynfield is been removed 
     if { ![info exists opportunity_sales_stage_id] || "" == $opportunity_sales_stage_id } {
 	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.OpportunitySalesStageMissing "Please provide a value for 'Sales Stage'"]"
+	ad_script_abort
     }
 	
     # Basic Sanity checks to avoid that user creates double entries 
@@ -251,7 +258,7 @@ ad_form -extend -name $form_id -select_query {
 	global errorInfo
 	ns_log Error $errorInfo
 	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.OpportunityCreationFailed "Unable to create opportunity"] $errorInfo"
-		ad_script_abort
+	ad_script_abort
     }
 	
     # Store Dynfields 
@@ -284,12 +291,25 @@ ad_form -extend -name $form_id -select_query {
     # Update the Opportunity
     # -----------------------------------------------------------------
 
+    if { $presales_probability < 0 || $presales_probability > 100} {
+	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.OpportunityPresalesProbabilityOutOfRange "Presales probability must be between 0 and 100"]"
+	ad_script_abort
+    }
+
     set presales_sql ""
     # If budget is provided, budget currency is mandatory 
     if { "" != $presales_value && "" == $presales_value_currency } {
 	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.BudgetCurrencyMissing "Please provide a value 'Presales Value Currency'"]"
+	ad_script_abort
     } else {
         set presales_sql ", presales_value = :presales_value, presales_value_currency = :presales_value_currency"
+    }
+
+    # Make opportunity_sales_stage_id mandatory because we need is at an identifier to determine what project had been resulted out of a lead
+    # Should be covered by DynField Attribute - just doublecheck in case this Dynfield is been removed
+    if { ![info exists opportunity_sales_stage_id] || "" == $opportunity_sales_stage_id } {
+	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.OpportunitySalesStageMissing "Please provide a value for 'Sales Stage'"]"
+	ad_script_abort
     }
 
     if { [info exists company_contact_id] && "" == $company_contact_id } {
