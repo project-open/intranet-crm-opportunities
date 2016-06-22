@@ -587,11 +587,10 @@ begin
                 raise notice 'intranet-crm-opportunities-create.sql: Could not create column ''opportunity_sales_stage_id'', it might exist already ';
         end;
 
-        return 1;
-
         -- Show only Dynfield only for sub type 'opportunity'
         update im_dynfield_type_attribute_map set display_mode = 'none' where attribute_id = v_dynfield_attribute_id and object_type_id <> 102;
 
+        return 1;
 
 end;$BODY$ language 'plpgsql';
 select inline_0 ();
