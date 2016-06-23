@@ -190,8 +190,7 @@ ad_form -extend -name $form_id -select_query {
 
     # If budget is provided, budget currency is mandatory 
     if { "" != $presales_value && "" == $presales_value_currency } {
-    	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.BudgetCurrencyMissing "Please provide a currency for 'Presales Value'"]"
-	ad_script_abort
+	set presales_value_currency $default_currency
     }
 
     # Make opportunity_sales_stage_id mandatory because we need is at an identifier to determine what project had been resulted out of a lead 
