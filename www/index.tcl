@@ -31,18 +31,27 @@ set parent_menu_id [util_memoize [list db_string parent_admin_menu $parent_menu_
 
 set sub_navbar [im_crm_navbar "none" "/intranet-crm-opportunities/index" "" "" [list] "crm_home"] 
 
-# ---------------------------------------------------------------
-# Format the admin menu
-# ---------------------------------------------------------------
 
-set admin_html ""
-if { [im_permission $current_user_id "add_projects"] } {
-    append admin_html "<li><a href='[export_vars -base "/intranet-crm-opportunities/new" {return_url}]'>[lang::message::lookup "" intranet-crm-opportunities.AddANewOpportunity "New Opportunity"]</a>\n"
+# ----------------------------------------------------------
+# Build administration links
+
+set admin_html "<ul>"
+
+set links [im_menu_crm_admin_links]
+foreach link_entry $links {
+    set html ""
+    for {set i 0} {$i < [llength $link_entry]} {incr i 2} {
+        set name [lindex $link_entry $i]
+        set url [lindex $link_entry $i+1]
+        append html "<a href='$url'>$name</a>"
+    }
+    append admin_html "<li>$html</li>\n"
 }
 
-set admin_html "<ul>$admin_html</ul>"
-
-
+# Append user-defined menus
+set bind_vars [list return_url $return_url]
+append admin_html [im_menu_ul_list -no_uls 1 "crm_admin" $bind_vars]
+append admin_html "</ul>"
 
 # ---------------------------------------------------------------
 # Format the Report Creation Menu

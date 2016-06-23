@@ -473,12 +473,19 @@ set mine_p_options [list \
 ]
 
 # ----------------------------------------------------------
-# Do we have to show administration links?
+# Build administration links
 
 set admin_html "<ul>"
 
-if { [im_permission $current_user_id "add_projects"] } {
-    append admin_html "<li><a href=\"[export_vars -base "/intranet-crm-opportunities/new" {return_url} ]\"> [lang::message::lookup "" intranet-crm-opportunities.AddANewOpportunity "New Opportunity"] </a></li>"
+set links [im_menu_crm_admin_links]
+foreach link_entry $links {
+    set html ""
+    for {set i 0} {$i < [llength $link_entry]} {incr i 2} {
+        set name [lindex $link_entry $i]
+        set url [lindex $link_entry $i+1]
+        append html "<a href='$url'>$name</a>"
+    }
+    append admin_html "<li>$html</li>\n"
 }
 
 # Append user-defined menus

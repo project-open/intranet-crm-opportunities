@@ -119,3 +119,18 @@ ad_proc -public im_crm_navbar {
     return $navbar
 }
 
+
+ad_proc -public im_menu_crm_admin_links {
+} {
+    Return a list of admin links to be added to the "crm" menu
+} {
+    set result_list {}
+    set current_user_id [ad_conn user_id]
+    set return_url [im_url_with_query]
+
+    if { [im_permission $current_user_id "add_projects"] } {
+        lappend result_list [list [lang::message::lookup "" intranet-crm-opportunities.AddANewOpportunity "Add New Opportunity"] "/intranet-crm-opportunities/new"]
+    }
+    return $result_list
+}
+
