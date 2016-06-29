@@ -565,7 +565,7 @@ db_foreach projects_info_query $selection -bind $form_vars {
     
     # Build sum Presales Value
     if { [info exists presales_value_converted] && "" != $presales_value_converted} {
-	set presales_value_sum_converted [expr {$presales_value_converted + $presales_value_sum_converted}]
+	set presales_value_sum_converted [expr $presales_value_converted + $presales_value_sum_converted]
     }
 
     # set Weighted Value and build sum 
