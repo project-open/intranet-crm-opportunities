@@ -129,7 +129,7 @@ ad_proc -public im_menu_crm_admin_links {
     set return_url [im_url_with_query]
 
     if { [im_permission $current_user_id "add_projects"] } {
-        lappend result_list [list [lang::message::lookup "" intranet-crm-opportunities.AddANewOpportunity "Add New Opportunity"] "/intranet-crm-opportunities/new"]
+        # lappend result_list [list [lang::message::lookup "" intranet-crm-opportunities.AddANewOpportunity "Add New Opportunity"] "/intranet-crm-opportunities/new"]
     }
     return $result_list
 }
