@@ -65,7 +65,7 @@ db_foreach opportunity_list $sql {
         "
         incr ctr
 } if_no_rows {
-    append component_html "<tr><td colspan=4>[lang::message::lookup "" intranet-cust-opportunities.NoOpportunitiesFound "No Opportunities Found"]</td></tr>\n"
+    append component_html "<tr><td colspan=4>[lang::message::lookup "" intranet-crm-opportunities.NoOpportunitiesFound "No Opportunities Found"]</td></tr>\n"
     }
 
 # Show 'more' link ? 
