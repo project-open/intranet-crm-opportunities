@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="intranet-crm-opportunities" locale="de_DE" charset="ISO-8859-1">
+
+  <msg key="Ad_hoc_company">Firma</msg>
+  <msg key="Ad_hoc_opportunity">Gelegenheit</msg>
+  <msg key="Ad_hoc_presales_probability">Wahrscheinlichkeit</msg>
+  <msg key="Ad_hoc_presales_value">Wert</msg>
+  <msg key="Ad_hoc_weighted_value">Gewichteter Wert</msg>
+  <msg key="AddANewOpportunity">Neue Gelegenheit</msg>
+  <msg key="All">Alle</msg>
+  <msg key="Closed">Geschlossen</msg>
+  <msg key="Closed_Lost">Geschlossen - Verloren</msg>
+  <msg key="Closed_Won">Geschlossen - Gewonnen</msg>
+  <msg key="Company">Firma</msg>
+  <msg key="Created">Angelegt</msg>
+  <msg key="CreateNewCompany">Neue Firma</msg>
+  <msg key="CreateNewCostumerContact">Neuer Kundenkontakt</msg>
+  <msg key="CreateNewLead">Neue Gelegenheit</msg>
+  <msg key="CRM_Home">CRM Startseite</msg>
+  <msg key="FilterOpportunities">Gelegenheiten filtern</msg>
+  <msg key="Id">ID</msg>
+  <msg key="LeadQueue">Schlange</msg>
+  <msg key="Needs_Analysis">Analyse</msg>
+  <msg key="New_Opportunity">Neue Gelegenheit</msg>
+  <msg key="NoOpportunitiesFound">Keine Gelegenheiten gefunden</msg>
+  <msg key="Open">Offen</msg>
+  <msg key="Opportunities">Gelegenheiten</msg>
+  <msg key="Opportunity">Gelegenheit</msg>
+  <msg key="OpportunityCustomer">Kunde</msg>
+  <msg key="OpportunityCustomerContact">Kontakt</msg>
+  <msg key="OpportunityOwner">Besitzer</msg>
+  <msg key="OpportunityPipeline">Gelegenheiten Pipeline</msg>
+  <msg key="OpportunitySalesStage">Verkaufsphase</msg>
+  <msg key="Perception_Analysis">Perzeption Analyse</msg>
+  <msg key="PresalesValue">Verkaufswert</msg>
+  <msg key="PresalesValueSum">Summe Verkaufswert</msg>
+  <msg key="Prospecting">Prospektion</msg>
+  <msg key="Qualification">Qualifikation</msg>
+  <msg key="Sales_Pipeline_by_Number">Gelegenheiten nach Anzahl</msg>
+  <msg key="Sales_Pipeline_by_Volume">Gelegenheiten nach Wert (tausende)</msg>
+  <msg key="SalesStage">Verkaufsphase</msg>
+  <msg key="Top_10_Opportunities">Top 10 Gelegenheiten</msg>
+  <msg key="Value_Proposition">Wertversprechen</msg>
+  <msg key="WeightedValueSum">Gewichtete Summe</msg>
+</message_catalog>
