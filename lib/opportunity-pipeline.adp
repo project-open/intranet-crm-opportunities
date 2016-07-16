@@ -126,7 +126,14 @@ function launchOpportunityPipelineDiagram(){
             yField: 'y_axis',
             highlight: true,
             markerConfig: { type: 'circle' },
-	    label: { display: 'under', field: 'caption', 'text-anchor': 'left', color: '#000' },
+
+	    label: {
+                display: 'under',
+                field: 'caption',
+                'text-anchor': 'left',
+		color: '#000'
+            },
+
             renderer: function(sprite, record, attr, index, store) {
                 // Set the properties of every scatter sprite. project_id allows us to trace the 
 		// drag-and-drop sprite back to it's original store for updating the entry there.
