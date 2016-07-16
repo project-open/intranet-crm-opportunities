@@ -244,7 +244,28 @@ SELECT im_component_plugin__new (
 
 
 
+SELECT im_component_plugin__new (
+	null,						-- plugin_id
+	'im_component_plugin',				-- object_type
+	now(),						-- creation_date
+	null,						-- creation_user
+	null,						-- creation_ip
+	null,						-- context_id
+	'Sales Pipeline - Volume vs. Probability',	-- plugin_name
+	'intranet-crm-opportunities',			-- package_name
+	'left',						-- location
+	'/intranet-crm-opportunities/index',		-- page_url
+	null,						-- view_name
+	200,						-- sort_order
+	'im_opportunity_pipeline -diagram_width 600 -diagram_height 600',
+	'lang::message::lookup "" intranet-crm-opportunities.Sales_Pipeline_Volume_vs_Probability "Sales Pipeline - Volume vs. Probability"'
+);
 
+SELECT acs_permission__grant_permission(
+        (select plugin_id from im_component_plugins where plugin_name = 'Sales Pipeline - Volume vs. Probability' and package_name = 'intranet-crm-opportunities'),
+        (select group_id from groups where group_name = 'Employees'),
+        'read'
+);
 
 
 
