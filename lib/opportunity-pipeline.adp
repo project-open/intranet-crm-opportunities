@@ -126,10 +126,10 @@ function launchOpportunityPipelineDiagram(){
             yField: 'y_axis',
             highlight: true,
             markerConfig: { type: 'circle' },
+	    label: { display: 'under', field: 'caption', 'text-anchor': 'left', color: '#000' },
             renderer: function(sprite, record, attr, index, store) {
-                // Set the properties of every scatter sprite
-                // project_id allows us to trace the drag-and-drop sprite
-                // back to it's original store for updating the entry there.
+                // Set the properties of every scatter sprite. project_id allows us to trace the 
+		// drag-and-drop sprite back to it's original store for updating the entry there.
                 var newAttr = Ext.apply(attr, {
                     radius: record.get('diameter'),
                     fill: record.get('color'),
