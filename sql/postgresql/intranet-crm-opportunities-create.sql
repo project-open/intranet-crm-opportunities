@@ -418,7 +418,7 @@ insert into im_view_columns (column_id, view_id, sort_order, column_name, column
 (98060,980,70,'Presales Value','"$presales_value_pretty $presales_value_currency"');
 
 insert into im_view_columns (column_id, view_id, sort_order, column_name, column_render_tcl) values
-(98070,980,80,'Probability (%)','$presales_probability %');
+(98070,980,80,'Probability','$presales_probability %');
 
 insert into im_view_columns (column_id, view_id, sort_order, column_name, column_render_tcl) values
 (98080,980,90,'Weighted Value','"$opportunity_weighted_value $presales_value_currency"');

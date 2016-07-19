@@ -264,7 +264,7 @@ switch [string tolower $order_by] {
     "contact" { set order_by_clause "order by lower(contact_name)" }
     "sales stage" { set order_by_clause "order by opportunity_sales_stage_id" }
     "presales value" { set order_by_clause "order by presales_value DESC" }
-    "probability (%)" { set order_by_clause "order by presales_probability DESC" }
+    "probability" { set order_by_clause "order by presales_probability DESC" }
     "weighted value" { set order_by_clause "order by opportunity_weighted_value DESC" }
     "owner" { set order_by_clause "order by opportunity_owner" }
     "campaign" { set order_by_clause "order by campaign_name" }

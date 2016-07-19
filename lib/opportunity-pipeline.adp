@@ -99,7 +99,7 @@ function launchOpportunityPipelineDiagram(){
 	renderTo: '@diagram_id@',
         axes: [{
             type: 'Numeric',
-	    title: 'Probability (%)',
+	    title: 'Probability',
             position: 'left', 
             fields: ['y_axis'], 
             grid: true,
