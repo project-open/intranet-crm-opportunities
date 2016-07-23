@@ -12,10 +12,12 @@
   <msg key="Closed_Lost">Geschlossen - Verloren</msg>
   <msg key="Closed_Won">Geschlossen - Gewonnen</msg>
   <msg key="Company">Firma</msg>
+  <msg key="CompanyContact">Kundenkontakt</msg>
   <msg key="Created">Angelegt</msg>
   <msg key="CreateNewCompany">Neue Firma</msg>
   <msg key="CreateNewCostumerContact">Neuer Kundenkontakt</msg>
   <msg key="CreateNewLead">Neue Gelegenheit</msg>
+  <msg key="CreateProject">Neues Projekt</msg>
   <msg key="CRM_Home">CRM Startseite</msg>
   <msg key="FilterOpportunities">Gelegenheiten filtern</msg>
   <msg key="Id">ID</msg>
@@ -26,8 +28,12 @@
   <msg key="Open">Offen</msg>
   <msg key="Opportunities">Gelegenheiten</msg>
   <msg key="Opportunity">Gelegenheit</msg>
+  <msg key="OpportunityBaseData">Gelegenheit Basisdaten</msg>
   <msg key="OpportunityCustomer">Kunde</msg>
   <msg key="OpportunityCustomerContact">Kontakt</msg>
+  <msg key="OpportunityMembers">Mitglieder</msg>
+  <msg key="OpportunityName">Name</msg>
+  <msg key="OpportunityNumber">Nr</msg>
   <msg key="OpportunityOwner">Besitzer</msg>
   <msg key="OpportunityPipeline">Gelegenheiten Pipeline</msg>
   <msg key="OpportunitySalesStage">Verkaufsphase</msg>
@@ -38,6 +44,7 @@
   <msg key="Qualification">Qualifikation</msg>
   <msg key="Sales_Pipeline_by_Number">Gelegenheiten nach Anzahl</msg>
   <msg key="Sales_Pipeline_by_Volume">Gelegenheiten nach Wert (tausende)</msg>
+  <msg key="Sales_Pipeline_Volume_vs_Probability">Verkaufspipeline: Volumen versus Wahrscheinlichkeit</msg>
   <msg key="SalesStage">Verkaufsphase</msg>
   <msg key="Top_10_Opportunities">Top 10 Gelegenheiten</msg>
   <msg key="Value_Proposition">Wertversprechen</msg>
