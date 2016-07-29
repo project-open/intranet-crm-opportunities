@@ -25,7 +25,7 @@
     <multiple name="project_dynfield_attribs">
       <if @project_dynfield_attribs.value@ not nil>
       <tr>
-        <td>@project_dynfield_attribs.pretty_name_attribute;noquote@</td>
+        <td>@project_dynfield_attribs.attrib_var;noquote@</td>
         <td>@project_dynfield_attribs.value;noquote@</td>
       </tr>
       </if>
