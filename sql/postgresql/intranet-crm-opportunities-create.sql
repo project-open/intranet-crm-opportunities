@@ -360,7 +360,7 @@ BEGIN
 		null,				-- context_id
 		'intranet-crm-opportunities',	-- package_name
 		'crm_opportunities',		-- label
-		'Opportunities',		-- name
+		'Opportunities List',		-- name
 		'/intranet-crm-opportunities/opportunities',	-- url
 		20,				-- sort_order
 		v_crm_menu,			-- parent_menu_id
