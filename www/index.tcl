@@ -16,7 +16,7 @@ ad_page_contract {
 }
 
 set current_user_id [auth::require_login]
-set page_title [lang::message::lookup "" intranet-crm-opportunities.CRM_Home "CRM Home"]
+set page_title [lang::message::lookup "" intranet-crm-opportunities.CRM_Dashboard "CRM Dashboard"]
 set context_bar [im_context_bar $page_title]
 set return_url [im_url_with_query]
 
