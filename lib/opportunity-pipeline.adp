@@ -152,8 +152,8 @@ function launchOpportunityPipelineDiagram(){
                 renderer: function(storeItem, item) {
                     var title = "<a href=\"" + projectBaseUrl + storeItem.get('project_id') + '\">' + 
 			storeItem.get('caption') + '</a>' + '<br>' + 
-                        '@value_l10n@: ' + parseInt(storeItem.get('x_axis')) + ', ' + 
-                        '@prob_l10n@:' + parseInt(storeItem.get('y_axis')) + '%';
+                        '@value_l10n@: ' + parseInt(storeItem.get('x_axis')) + ' @default_currency@, ' + 
+                        '@prob_l10n@: ' + parseInt(storeItem.get('y_axis')) + '%';
                     this.setTitle(title);
                 }
             }
