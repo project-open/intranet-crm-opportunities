@@ -71,7 +71,7 @@ set menu_select_sql "
 
 # Start formatting the menu bar
 set reports_menu "<ul>"
-set ctr 0
+set reports_ctr 0
 db_foreach menu_select $menu_select_sql {
     ns_log Notice "im_sub_navbar: menu_name='$name'"
     set name_key [string map {" " "_" "(" "" ")" ""} $name]
@@ -79,11 +79,9 @@ db_foreach menu_select $menu_select_sql {
     append reports_menu "<li><a href=\"$url\">[lang::message::lookup "" intranet-reporting.$name_key $name]</a>
                                <a href='$wrench_url'>[im_gif wrench]</a></li>
     "
-    incr ctr
+    incr reports_ctr
 }
 append reports_menu "</ul>"
-set reports_ctr $ctr
-
 
 set left_navbar_html "
 	    <div class=\"filter-block\">
@@ -92,17 +90,17 @@ set left_navbar_html "
 		</div>
 		$admin_html
 	    </div>
-	    <hr/>
 "
-
-
-append left_navbar_html "
+if { 0 != $reports_ctr } {
+    append left_navbar_html "
+	    <hr/>
 	    <div class=\"filter-block\">
 		<div class=\"filter-title\">
 		    [lang::message::lookup "" intranet-cost.Reports "Reports"]
 		</div>
 		$reports_menu
 	    </div>
-	    <hr/>
-"
+    "
+}
+
 
