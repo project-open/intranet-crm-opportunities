@@ -14,6 +14,11 @@ SELECT im_category_new(102, 'CRM Opportunity', 'Intranet Project Type');
 SELECT im_category_new(103, 'CRM Campaign', 'Intranet Project Type');
 update im_categories set enabled_p = 'f' where category_id in (102, 103);
 
+update im_categories 
+set category_description = 'Allows assignment of opportunities to marketing campaigns. Disable if CRM module is not used.' 
+where category_type = 'Intranet Project Type' and category = 'CRM Campaign';
+
+
 
 -- Disable "Opportunity & Campaign" so that they do not appear in the list of project types
 -- update im_categories set enabled_p = 'f' where category_id = '102';
