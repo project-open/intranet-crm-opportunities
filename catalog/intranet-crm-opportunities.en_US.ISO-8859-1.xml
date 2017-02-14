@@ -27,6 +27,8 @@
   <msg key="NoOpportunitiesFound">No Opportunities Found</msg>
   <msg key="Open">Open</msg>
   <msg key="Opportunities">Opportunities</msg>
+  <msg key="Opportunities_Dashboard">Opportunities Dashboard</msg>
+  <msg key="Opportunities_List">Opportunities List</msg>
   <msg key="Opportunity">Opportunity</msg>
   <msg key="OpportunityBaseData">Opportunity Base Data</msg>
   <msg key="OpportunityCustomer">Customer</msg>

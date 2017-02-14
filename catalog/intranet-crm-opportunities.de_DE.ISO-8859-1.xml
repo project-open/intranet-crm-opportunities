@@ -18,15 +18,16 @@
   <msg key="CreateNewCostumerContact">Neuer Kundenkontakt</msg>
   <msg key="CreateNewLead">Neue Gelegenheit</msg>
   <msg key="CreateProject">Neues Projekt</msg>
-  <msg key="CRM_Home">CRM Startseite</msg>
+  <msg key="CRM_Home">CRM Übersicht</msg>
   <msg key="FilterOpportunities">Gelegenheiten filtern</msg>
   <msg key="Id">ID</msg>
-  <msg key="LeadQueue">Schlange</msg>
+  <msg key="LeadQueue">Summe</msg>
   <msg key="Needs_Analysis">Analyse</msg>
   <msg key="New_Opportunity">Neue Gelegenheit</msg>
   <msg key="NoOpportunitiesFound">Keine Gelegenheiten gefunden</msg>
   <msg key="Open">Offen</msg>
   <msg key="Opportunities">Gelegenheiten</msg>
+  <msg key="Opportunities_List">Gelegenheiten Liste</msg>
   <msg key="Opportunity">Gelegenheit</msg>
   <msg key="OpportunityBaseData">Gelegenheit Basisdaten</msg>
   <msg key="OpportunityCustomer">Kunde</msg>
@@ -36,7 +37,7 @@
   <msg key="OpportunityNumber">Nr</msg>
   <msg key="OpportunityOwner">Besitzer</msg>
   <msg key="OpportunityPipeline">Gelegenheiten Pipeline</msg>
-  <msg key="OpportunitySalesStage">Verkaufsphase</msg>
+  <msg key="OpportunitySalesStage">Verkaufs&lt;br&gt;phase</msg>
   <msg key="Perception_Analysis">Perzeption Analyse</msg>
   <msg key="PresalesValue">Verkaufswert</msg>
   <msg key="PresalesValueSum">Summe Verkaufswert</msg>
@@ -48,5 +49,5 @@
   <msg key="SalesStage">Verkaufsphase</msg>
   <msg key="Top_10_Opportunities">Top 10 Gelegenheiten</msg>
   <msg key="Value_Proposition">Wertversprechen</msg>
-  <msg key="WeightedValueSum">Gewichtete Summe</msg>
+  <msg key="WeightedValueSum">Summe gewichtet</msg>
 </message_catalog>
