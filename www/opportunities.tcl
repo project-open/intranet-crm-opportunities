@@ -719,5 +719,4 @@ set left_navbar_html "
         </div>
         $statistics
         </div>
-      <hr/>
 "
