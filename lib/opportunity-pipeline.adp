@@ -205,7 +205,7 @@ function launchOpportunityPipelineDiagram(){
     var onSpriteMouseDown = function(sprite, event, eOpts) {
         var offsetX = event.browserEvent.offsetX;
         var offsetY = event.browserEvent.offsetY;
-        console.log("onSpriteMouseDown: "+offsetX+","+offsetY);
+        // console.log("onSpriteMouseDown: "+offsetX+","+offsetY);
 
         // Create a copy of the sprite without fill
         var attrs = Ext.clone(sprite.attr);
@@ -221,7 +221,7 @@ function launchOpportunityPipelineDiagram(){
 
     var onSurfaceMouseMove = function(event, eOpts) {
         if (dndSpriteShadow == null) { return; }
-        console.log("onSurfaceMouseMove: "+event.getXY());
+        // console.log("onSurfaceMouseMove: "+event.getXY());
         var xy = event.getXY();
         var startXY = dndSpriteShadow.dndStartXY;
         dndSpriteShadow.setAttributes({
@@ -230,7 +230,58 @@ function launchOpportunityPipelineDiagram(){
         }, true);
 
 	var box = this.bgRect.getBox();
-        console.log("onSurfaceMouseMove: x="+box.x+", y="+box.y+", width="+box.width+", height="+box.height);
+        // console.log("onSurfaceMouseMove: x="+box.x+", y="+box.y+", width="+box.width+", height="+box.height);
+        console.log("onSurfaceMouseMove: x=" + box.x + ", y=" + box.y + "event_xy: " + xy );
+
+	var xAxis = chart.axes.get('bottom');
+        var yAxis = chart.axes.get('left');
+
+        // Relative movement of sprite from original position
+        var relX = xy[0] - dndSpriteShadow.dndStartXY[0];
+        var relY = xy[1] - dndSpriteShadow.dndStartXY[1];
+        relY = -relY;
+
+        // Relative value changed for sprite values
+        var relValueX = relX * (xAxis.to - xAxis.from) / xAxis.length;
+        var relValueY = relY * (yAxis.to - yAxis.from) / yAxis.length;
+
+	if ( (xy[0] > box.x + @diagram_width@ - 20) && relValueX > 0 ) { 
+
+	    var project_id = dndSpriteShadow.attr.project_id;
+	    var rec = projectMainStore.getById(""+project_id);
+
+	    // Evaluate value & probability
+	    var presales_value = parseFloat(rec.get('presales_value'));
+            var presales_probability = parseFloat(rec.get('presales_probability'));
+            if (isNaN(presales_value)) { presales_value = 0; }
+            if (isNaN(presales_probability)) { presales_probability = 0; }
+            presales_value = Math.round((presales_value + relValueX) / 100.0) * 100;
+            presales_probability = Math.round(presales_probability + relValueY);
+            if (presales_value < 0.0) { presales_value = 0; }
+            if (presales_probability > 100.0) { presales_probability = 100; }
+            if (presales_probability < 0.0) { presales_probability = 0; }
+	    
+	    // console.log("onSurfaceMouseMove: - Entering in RED ZONE - event_xy: " + xy + "project_id: " + project_id + "relValueX: " + relValueX); 
+
+            presales_value = xAxis.to * 2;
+            Ext.Msg.alert('Move outside the chart area', "Duplicated value to '" + presales_value+"'.");
+
+	    // Write values back to store
+            rec.set('presales_value', "" + presales_value);
+            rec.set('presales_probability', ""+presales_probability);
+            rec.save();
+            // console.log("onSurfaceMouseUp: pid="+project_id+", value="+presales_value+", prob="+presales_probability);
+
+            // Update the record of the chartStore
+            var rec = chartStore.getAt(chartStore.find('project_id', ""+project_id));
+            rec.set('x_axis', presales_value);
+            rec.set('y_axis', presales_probability);
+
+            // Close the DnD operation
+            this.remove(dndSpriteShadow, true);
+            dndSpriteShadow = null;
+            dndStart = null;
+	}
 
     };
 
@@ -255,7 +306,7 @@ function launchOpportunityPipelineDiagram(){
         // Relative value changed for sprite values
         var relValueX = relX * (xAxis.to - xAxis.from) / xAxis.length;
         var relValueY = relY * (yAxis.to - yAxis.from) / yAxis.length;
-        console.log("onSurfaceMouseUp: pid="+project_id+", relXY=("+relX+","+relY+"), val=("+relValueX+","+relValueY+")");
+        // console.log("onSurfaceMouseUp: pid="+project_id+", relXY=("+relX+","+relY+"), val=("+relValueX+","+relValueY+")");
 
         // Write updated values into server store
         var project_id = dndSpriteShadow.attr.project_id;
@@ -272,16 +323,16 @@ function launchOpportunityPipelineDiagram(){
 
 	// Check if we have left the chart.
 	// In this case we start the out-of-chart logic
-	if (presales_value > xAxis.to) {
-	    presales_value = xAxis.to * 2;
-	    Ext.Msg.alert('Move outside the chart area', "Duplicated value to '"+presales_value+"'.");
-	}
+	// if (presales_value > xAxis.to) {
+	//    presales_value = xAxis.to * 2;
+	//    Ext.Msg.alert('Move outside the chart area', "Duplicated value to '" + presales_value+"'.");
+	// }
 	
 	// Write values back to store
 	rec.set('presales_value', ""+presales_value);
         rec.set('presales_probability', ""+presales_probability);
         rec.save();
-        console.log("onSurfaceMouseUp: pid="+project_id+", value="+presales_value+", prob="+presales_probability);
+        // console.log("onSurfaceMouseUp: pid="+project_id+", value="+presales_value+", prob="+presales_probability);
 
         // Update the record of the chartStore
         var rec = chartStore.getAt(chartStore.find('project_id', ""+project_id));
@@ -294,11 +345,11 @@ function launchOpportunityPipelineDiagram(){
         dndStart = null;
     };
 
-    var onRightBorderSpriteMouseOver = function(sprite, event) {
-        if (dndSpriteShadow == null) { return; }
-        console.log("onRightBorderSpriteMouseOver: "+event.getXY());
-    };
-
+    // KH: 170531: Not used
+    // var onRightBorderSpriteMouseOver = function(sprite, event) {
+    //    if (dndSpriteShadow == null) { return; }
+    //    console.log("onRightBorderSpriteMouseOver: "+event.getXY());
+    // };
 
     // Add drag-and-drop listeners to the sprites
     var surface = chart.surface;
@@ -310,7 +361,6 @@ function launchOpportunityPipelineDiagram(){
     }
     surface.on("mousemove", onSurfaceMouseMove, surface);
     surface.on("mouseup", onSurfaceMouseUp, surface);
-
 };
 
 Ext.onReady(function() {
@@ -351,6 +401,7 @@ Ext.onReady(function() {
 	format: "json",
 	query: "user_id in (select project_lead_id from im_projects where parent_id is null and project_type_id = 102)"
     };
+
     opportunityOwnerStore.load();
 
 });
