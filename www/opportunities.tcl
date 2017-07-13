@@ -404,7 +404,7 @@ SELECT
 FROM
         ( SELECT
                 p.*,
-		trim(to_char(coalesce(p.presales_value,0.0), '99999999999999,999D99')) as presales_value_pretty,
+		trim(to_char(coalesce(p.presales_value,0.0), '99,999,999,999,999,999.99')) as presales_value_pretty,
 		coalesce(presales_value,0.0) * coalesce(presales_probability,0) / 100.0 as opportunity_weighted_value,
 		round((p.presales_value * im_exchange_rate(now()::date,p.presales_value_currency, :default_currency)) :: numeric,2) as presales_value_converted,
 		p.project_id as opportunity_id,
