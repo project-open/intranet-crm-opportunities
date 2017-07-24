@@ -4,6 +4,7 @@
   <msg key="Company">Firma</msg>
   <msg key="Created">Angelegt</msg>
   <msg key="CreateNewLead">Neue Gelegenheit</msg>
+  <msg key="CRM_Dashboard">CRM Dashboard</msg>
   <msg key="CRM_Home">CRM Übersicht</msg>
   <msg key="NoOpportunitiesFound">Keine Gelegenheiten gefunden</msg>
   <msg key="Opportunities_Dashboard">Gelegenheiten Dashboard</msg>
