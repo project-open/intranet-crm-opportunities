@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <message_catalog package_key="intranet-crm-opportunities" locale="de_DE" charset="ISO-8859-1">
 
+  <msg key="Company">Firma</msg>
+  <msg key="Created">Angelegt</msg>
   <msg key="CreateNewLead">Neue Gelegenheit</msg>
+  <msg key="CRM_Home">CRM Übersicht</msg>
+  <msg key="NoOpportunitiesFound">Keine Gelegenheiten gefunden</msg>
+  <msg key="Opportunities_Dashboard">Gelegenheiten Dashboard</msg>
+  <msg key="Opportunities_List">Gelegenheiten Liste</msg>
+  <msg key="Opportunity">Gelegenheit</msg>
   <msg key="OpportunityCustomer">Kunde</msg>
   <msg key="OpportunityCustomerContact">Kontakt</msg>
   <msg key="OpportunityOwner">Besitzer</msg>
   <msg key="Sales_Pipeline_by_Volume">Gelegenheiten nach Wert (tausende)</msg>
+  <msg key="SalesStage">Verkaufsphase</msg>
 </message_catalog>
