@@ -11,7 +11,9 @@
   <msg key="Opportunity">Opportunity</msg>
   <msg key="OpportunityCustomer">Customer</msg>
   <msg key="OpportunityCustomerContact">Contact</msg>
+  <msg key="OpportunityFinanceDate">Opportunity Finance</msg>
   <msg key="OpportunityOwner">Owner</msg>
+  <msg key="PageTitleViewOpportunity">View Oportunity</msg>
   <msg key="Sales_Pipeline_by_Volume">Opportunities by Volume (thousands)</msg>
   <msg key="SalesStage">Sales Stage</msg>
 </message_catalog>
