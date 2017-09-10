@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<message_catalog package_key="intranet-crm-opportunities" locale="pl_PL" charset="utf-8">
+
+  <msg key="Ad_hoc_company">Klient</msg>
+  <msg key="Ad_hoc_opportunity">Temat</msg>
+  <msg key="Ad_hoc_presales_probability">Prawdopodobieństwo</msg>
+  <msg key="Ad_hoc_presales_value">Wartość</msg>
+  <msg key="Ad_hoc_weighted_value">Wartość ważona</msg>
+  <msg key="AddANewOpportunity">Nowy temat</msg>
+  <msg key="Company">Firma</msg>
+  <msg key="CompanyContact">Kontakt</msg>
+  <msg key="Created">Utworzony</msg>
+  <msg key="CreateNewCompany">Utwórz nową firmę</msg>
+  <msg key="CreateNewCostumerContact">Utwórz nowy kontakt</msg>
+  <msg key="CreateNewLead">Nowy temat</msg>
+  <msg key="CreateProject">Utwórz</msg>
+  <msg key="CRM_Dashboard">Tablica CRM</msg>
+  <msg key="FilterOpportunities">Filtruj tematy</msg>
+  <msg key="LeadQueue">Kolejka</msg>
+  <msg key="New_Opportunity">Nowy temat</msg>
+  <msg key="NoOpportunitiesFound">Brak tematów</msg>
+  <msg key="Opportunities">Tematy</msg>
+  <msg key="Opportunities_Dashboard">Tablica tematów</msg>
+  <msg key="Opportunities_List">Lista tematów</msg>
+  <msg key="Opportunity">Temat</msg>
+  <msg key="OpportunityBaseData">Podstawowe dane tematu</msg>
+  <msg key="OpportunityCustomer">Klient</msg>
+  <msg key="OpportunityCustomerContact">Kontakt</msg>
+  <msg key="OpportunityFinanceDate">Finanse tematu</msg>
+  <msg key="OpportunityMembers">Uczestnicy tematu</msg>
+  <msg key="OpportunityName">Nazwa</msg>
+  <msg key="OpportunityNumber">Nr</msg>
+  <msg key="OpportunityOwner">Właściciel</msg>
+  <msg key="OpportunityPipeline">Pipeline tematów</msg>
+  <msg key="OpportunitySalesStage">Faza sprzedaży</msg>
+  <msg key="PageTitleViewOpportunity">Przegląd tematu</msg>
+  <msg key="PresalesValue">Wartość sprzedaży</msg>
+  <msg key="PresalesValueSum">Suma wartości sprzedaży</msg>
+  <msg key="Sales_Pipeline_by_Number">Tematy wg liczby</msg>
+  <msg key="Sales_Pipeline_by_Volume">Tematy wg wolumenu (tys.)</msg>
+  <msg key="Sales_Pipeline_Volume_vs_Probability">Wolumen sprzedaży pipline&#39;u vs prawdopodobieństwo</msg>
+  <msg key="SalesStage">Faza sprzedaży</msg>
+  <msg key="Top_10_Opportunities">Pierwsze 10 tematów</msg>
+  <msg key="WeightedValueSum">Suma wartości ważonych</msg>
+</message_catalog>

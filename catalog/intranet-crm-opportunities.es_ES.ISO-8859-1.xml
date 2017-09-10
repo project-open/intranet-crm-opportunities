@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="intranet-crm-opportunities" locale="es_ES" charset="ISO-8859-1">
+
+  <msg key="Company">Empresa</msg>
+  <msg key="Created">Creado</msg>
+  <msg key="NoOpportunitiesFound">No encontrado oportunidades</msg>
+  <msg key="Opportunity">Oportunidad</msg>
+  <msg key="SalesStage">Fase de venta</msg>
+</message_catalog>
