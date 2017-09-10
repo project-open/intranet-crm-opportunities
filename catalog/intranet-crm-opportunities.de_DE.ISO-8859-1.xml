@@ -3,16 +3,18 @@
 
   <msg key="Company">Firma</msg>
   <msg key="Created">Angelegt</msg>
-  <msg key="CreateNewLead">Neue Gelegenheit</msg>
-  <msg key="CRM_Dashboard">CRM Dashboard</msg>
+  <msg key="CreateNewLead">Neue Verkaufschance</msg>
+  <msg key="CRM_Dashboard">CRM-Dashboard</msg>
   <msg key="CRM_Home">CRM Übersicht</msg>
-  <msg key="NoOpportunitiesFound">Keine Gelegenheiten gefunden</msg>
-  <msg key="Opportunities_Dashboard">Gelegenheiten Dashboard</msg>
-  <msg key="Opportunities_List">Gelegenheiten Liste</msg>
-  <msg key="Opportunity">Gelegenheit</msg>
+  <msg key="NoOpportunitiesFound">Keine Verkaufschancen gefunden</msg>
+  <msg key="Opportunities_Dashboard">Verkaufschancen-Dashboard</msg>
+  <msg key="Opportunities_List">Verkaufschancen-Liste</msg>
+  <msg key="Opportunity">Verkaufschance</msg>
   <msg key="OpportunityCustomer">Kunde</msg>
   <msg key="OpportunityCustomerContact">Kontakt</msg>
   <msg key="OpportunityOwner">Besitzer</msg>
-  <msg key="Sales_Pipeline_by_Volume">Gelegenheiten nach Wert (tausende)</msg>
+  <msg key="OpportunityPipeline">Verkaufschancen-Pipeline</msg>
+  <msg key="Sales_Pipeline_by_Volume">Verkaufschancen nach Wert (in Tausend)</msg>
   <msg key="SalesStage">Verkaufsphase</msg>
+  <msg key="Top_10_Opportunities">Top 10-Verkaufschancen</msg>
 </message_catalog>
