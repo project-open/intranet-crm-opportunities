@@ -12,8 +12,10 @@
   <msg key="Opportunity">Verkaufschance</msg>
   <msg key="OpportunityCustomer">Kunde</msg>
   <msg key="OpportunityCustomerContact">Kontakt</msg>
+  <msg key="OpportunityFinanceDate">Verkaufschance - Finanzen</msg>
   <msg key="OpportunityOwner">Besitzer</msg>
   <msg key="OpportunityPipeline">Verkaufschancen-Pipeline</msg>
+  <msg key="PageTitleViewOpportunity">Verkaufschance Ansicht</msg>
   <msg key="Sales_Pipeline_by_Volume">Verkaufschancen nach Wert (in Tausend)</msg>
   <msg key="SalesStage">Verkaufsphase</msg>
   <msg key="Top_10_Opportunities">Top 10-Verkaufschancen</msg>
