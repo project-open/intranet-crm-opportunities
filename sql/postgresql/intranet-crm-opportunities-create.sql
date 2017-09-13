@@ -177,15 +177,17 @@ SELECT im_component_plugin__new (
 	'/intranet-crm-opportunities/index',	-- page_url
 	null,					-- view_name
 	100,					-- sort_order
-	'im_dashboard_histogram_sql -diagram_width 300 -sql "
-		select	im_category_from_id(p.project_status_id) as project_status,
-		        count(*) as cnt
-		from	im_projects p
-		where	p.parent_id is null and
-			p.project_status_id not in (select * from im_sub_categories(81))
-		group by project_status_id
-		order by project_status
-	"',
+        'im_dashboard_histogram_sql -diagram_width 300 -sql "
+                select  im_lang_lookup_category(''[ad_conn locale]'', p.opportunity_sales_stage_id) as project_status,
+                        count(*) as cnt,
+                        (select sort_order from im_categories where category_id = p.opportunity_sales_stage_id) as sort_order
+                from    im_projects p
+                where   p.parent_id is null
+                        and p.project_status_id not in (select * from im_sub_categories(84018))
+                        and project_type_id = 102
+                group by opportunity_sales_stage_id
+                order by sort_order, p.opportunity_sales_stage_id
+        "',
 	'lang::message::lookup "" intranet-crm-opportunities.Sales_Pipeline_by_Number "Sales Pipeline by Number"'
 );
 
@@ -204,13 +206,17 @@ SELECT im_component_plugin__new (
 	null,					-- view_name
 	200,					-- sort_order
 	'im_dashboard_histogram_sql -diagram_width 300 -sql "
-		select	im_category_from_id(p.project_status_id) as project_status,
-		        sum(coalesce(presales_probability,0) * coalesce(presales_value,project_budget,0)) as value
+		select  im_lang_lookup_category(''[ad_conn locale]'', p.opportunity_sales_stage_id) as project_status,
+			round(sum(coalesce(presales_probability,0) * coalesce(presales_value,project_budget,0)) / 100.0 / 1000.0) as value,
+			(select sort_order from im_categories where category_id = p.opportunity_sales_stage_id) as sort_order
 		from	im_projects p
-		where	p.parent_id is null and
-			p.project_status_id not in (select * from im_sub_categories(81))
-		group by project_status_id
-		order by project_status
+		where   p.parent_id is null
+			and p.project_status_id not in (select * from im_sub_categories(84018))
+			and project_type_id = 102
+		group by opportunity_sales_stage_id
+		order by
+			sort_order,
+			p.opportunity_sales_stage_id
 	"',
 	'lang::message::lookup "" intranet-crm-opportunities.Sales_Pipeline_by_Volume "Sales Pipeline by Volume"'
 );
