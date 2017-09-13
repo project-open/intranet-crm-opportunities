@@ -99,7 +99,7 @@ function launchOpportunityPipelineDiagram(){
 	renderTo: '@diagram_id@',
         axes: [{
             type: 'Numeric',
-	    title: 'Probability',
+	    title: '@prob_l10n@',
             position: 'left', 
             fields: ['y_axis'], 
             grid: true,
@@ -107,7 +107,7 @@ function launchOpportunityPipelineDiagram(){
 	    maximum: 100.0
         }, {
             type: 'Numeric', 
-	    title: 'Value (@default_currency@)',
+	    title: '@value_l10n@ (@default_currency@)',
             position: 'bottom', 
             fields: ['x_axis'],
             minimum: 0,
