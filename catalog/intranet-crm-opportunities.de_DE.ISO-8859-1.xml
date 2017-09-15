@@ -5,7 +5,7 @@
   <msg key="Created">Angelegt</msg>
   <msg key="CreateNewLead">Neue Verkaufschance</msg>
   <msg key="CRM_Dashboard">CRM-Dashboard</msg>
-  <msg key="CRM_Home">CRM Übersicht</msg>
+  <msg key="CRM_Home">CRM-Übersicht</msg>
   <msg key="NoOpportunitiesFound">Keine Verkaufschancen gefunden</msg>
   <msg key="Opportunities_Dashboard">Verkaufschancen-Dashboard</msg>
   <msg key="Opportunities_List">Verkaufschancen-Liste</msg>
@@ -16,7 +16,9 @@
   <msg key="OpportunityOwner">Besitzer</msg>
   <msg key="OpportunityPipeline">Verkaufschancen-Pipeline</msg>
   <msg key="PageTitleViewOpportunity">Verkaufschance Ansicht</msg>
-  <msg key="Sales_Pipeline_by_Volume">Verkaufschancen nach Wert (in Tausend)</msg>
+  <msg key="Sales_Pipeline_by_Number">Verkaufschancen Anzahl</msg>
+  <msg key="Sales_Pipeline_by_Volume">Verkaufschancen Wert (in Tausend)</msg>
+  <msg key="Sales_Pipeline_Volume_vs_Probability">Verkaufchancen: Wert versus Wahrscheinlichkeit</msg>
   <msg key="SalesStage">Verkaufsphase</msg>
   <msg key="Top_10_Opportunities">Top 10-Verkaufschancen</msg>
 </message_catalog>
