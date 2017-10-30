@@ -10,7 +10,7 @@
     <inherit-templates-p>t</inherit-templates-p>
     <auto-mount>intranet-crm-opportunities</auto-mount>
 
-    <version name="5.0.2.3.0" url="http://www.project-open.net/download/apm/intranet-crm-opportunities-5.0.2.3.0.apm">
+    <version name="5.0.2.4.0" url="http://www.project-open.net/download/apm/intranet-crm-opportunities-5.0.2.4.0.apm">
         <owner url="mailto:info@project-open.com">System Administrator</owner>
         <summary>CRM Opportunities</summary>
         <release-date>2016-11-15</release-date>
