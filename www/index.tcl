@@ -50,7 +50,7 @@ foreach link_entry $links {
 
 # Append user-defined menus
 set bind_vars [list return_url $return_url]
-append admin_html [im_menu_ul_list -no_uls 1 "crm_admin" $bind_vars]
+append admin_html [im_menu_ul_list -no_uls 1 "crm" $bind_vars]
 append admin_html "</ul>"
 
 # ---------------------------------------------------------------
