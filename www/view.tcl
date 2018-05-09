@@ -98,8 +98,13 @@ if {!$read} {
 
 set admin_html ""
 if {[im_permission $current_user_id "add_projects"]} {
-	append admin_html "<li><a href=\"/intranet-crm-opportunities/new\"> [lang::message::lookup "" intranet-crm-opportunities.AddANewOpportunity "New Opportunity"]</a>\n"
+    append admin_html "<li><a href=\"/intranet-crm-opportunities/new\"> [lang::message::lookup "" intranet-crm-opportunities.AddANewOpportunity "New Opportunity"]</a>\n"
 }
+
+if {$write} {
+    append admin_html "<li><a href=\"[export_vars -base "/intranet-crm-opportunities/create-project-from-opportunity" {opportunity_id}]\"> [lang::message::lookup "" intranet-crm-opportunities.ConvertOpportunityIntoProject "Convert Opportunity into Project"]</a>\n"
+}
+
 
 # ---------------------------------------------------------------------
 # Projects Submenu

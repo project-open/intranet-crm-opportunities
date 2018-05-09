@@ -19,19 +19,16 @@ ad_page_contract {
 set user_id [auth::require_login]
 
 # Write Audit Trail
-im_audit -object_id $opportunity_id
+im_audit -object_id $opportunity_id -action "view"
 
 set sql "
-        update
-                im_projects
-        set
-                project_type_id = [im_project_type_gantt],
-                opportunity_sales_stage_id = [im_opportunity_sales_stage_closed_won],
-                project_status_id = [im_project_status_open],
-                start_date = now()::date,
-                end_date = now()::date
-        where
-                project_id = :opportunity_id
+	update	im_projects
+	set	project_type_id = [im_project_type_gantt],
+		opportunity_sales_stage_id = [im_opportunity_sales_stage_closed_won],
+		project_status_id = [im_project_status_open],
+		start_date = now()::date,
+		end_date = now()::date
+	where	project_id = :opportunity_id
 "
 if {[catch {
     db_dml update_opportunity $sql
@@ -41,6 +38,9 @@ if {[catch {
     ad_return_complaint 1  "[lang::message::lookup "" intranet-crm-opportunities.NotAbleToCreateGanttProject "Not able to create Project"] $errorInfo"
     return
 }
+
+# Write Audit Trail
+im_audit -object_id $opportunity_id -action "after_update"
 
 # Callback 
 callback im_opportunity_create_project -opportunity_id $opportunity_id
