@@ -399,14 +399,18 @@ if { [lsearch -exact [im_sub_categories [im_opportunity_sales_stage_closed]] $op
 # -- ---------------------------------------------------------- 
 
 set sql "
-SELECT 
-	*
-FROM
-        ( SELECT
+        SELECT
                 p.*,
 		trim(to_char(coalesce(p.presales_value,0.0), '99,999,999,999,999,999.99')) as presales_value_pretty,
-		coalesce(presales_value,0.0) * coalesce(presales_probability,0) / 100.0 as opportunity_weighted_value,
-		round((p.presales_value * im_exchange_rate(now()::date,p.presales_value_currency, :default_currency)) :: numeric,2) as presales_value_converted,
+
+		round(
+			coalesce(presales_value, 0.0) * coalesce(presales_probability, 0.0) / 100.0 * 
+			im_exchange_rate(now()::date, coalesce(p.presales_value_currency,:default_currency), :default_currency)::numeric
+		,2) as opportunity_weighted_value,
+		round(
+			coalesce(p.presales_value, 0.0) * 
+			im_exchange_rate(now()::date, coalesce(p.presales_value_currency,:default_currency), :default_currency)::numeric
+		,2) as presales_value,
 		p.project_id as opportunity_id,
 		im_name_from_user_id(p.company_contact_id) as contact_name, 
 		im_name_from_user_id(p.project_lead_id) as opportunity_owner,
@@ -428,13 +432,7 @@ FROM
 		$extra_where
 		$mine_where
 		$user_id_where
-        ) projects
-
-
-
-
-
-$order_by_clause
+        $order_by_clause
 "
 
 
@@ -538,8 +536,8 @@ set bgcolor(0) " class=roweven "
 set bgcolor(1) " class=rowodd "
 set ctr 0
 set idx $start_idx
-set presales_value_sum_converted 0
-set weighted_value_sum_converted 0
+set presales_value_sum 0
+set weighted_value_sum 0
 
 db_foreach projects_info_query $selection -bind $form_vars {
 
@@ -564,17 +562,11 @@ db_foreach projects_info_query $selection -bind $form_vars {
     }
     
     # Build sum Presales Value
-    if { [info exists presales_value_converted] && "" != $presales_value_converted} {
-	set presales_value_sum_converted [expr $presales_value_converted + $presales_value_sum_converted]
-    }
+    set presales_value_sum [expr $presales_value + $presales_value_sum]
 
     # set Weighted Value and build sum 
-    set opportunity_weighted_value [lc_numeric "0" "%.2f" "en_US"]
-    if { [info exists presales_value_converted] && "" != $presales_value_converted && [info exists presales_probability] && "" != $presales_probability} {
-	set opportunity_weighted_value [lc_numeric [expr {$presales_value * $presales_probability / 100}] "%.2f" "en_US"]
-	set weighted_value_converted [expr {$presales_value_converted * $presales_probability / 100}]
-	set weighted_value_sum_converted [expr {$weighted_value_converted + $weighted_value_sum_converted}]
-    } 
+    set weighted_value_sum [expr $opportunity_weighted_value + $weighted_value_sum]
+
 
     # Append together a line of data based on the "column_vars" parameter list
     set row_html "<tr$bgcolor([expr {$ctr % 2}])>\n"
@@ -606,12 +598,12 @@ set statistics "
 <tr>
 <td>&nbsp;&nbsp;&nbsp;</td>
 <td align='left'>[lang::message::lookup "" intranet-crm-opportunities.PresalesValueSum "Sum Presales Value"]: </td>
-<td align='right'>[lc_numeric $presales_value_sum_converted "%.2f" "en_US"] $default_currency</td>
+<td align='right'>[lc_numeric $presales_value_sum "%.2f" "en_US"] $default_currency</td>
 </tr>
 <tr>
 <td></td>
 <td align='left'>[lang::message::lookup "" intranet-crm-opportunities.WeightedValueSum "Sum Weighted Value"]: </td>
-<td align='right'>[lc_numeric $weighted_value_sum_converted "%.2f" "en_US"] $default_currency</td>
+<td align='right'>[lc_numeric $weighted_value_sum "%.2f" "en_US"] $default_currency</td>
 </tr>
 </table>" 
 
