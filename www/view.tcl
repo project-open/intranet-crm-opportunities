@@ -29,8 +29,19 @@ ad_page_contract {
 # ---------------------------------------------------------------------
 # Redirect if this is a task or a project 
 
+set otype ""
+set project_name ""
 if {([info exists opportunity_id] && $opportunity_id ne "")} {
-    set otype [db_string otype "select object_type from acs_objects where object_id = :opportunity_id" -default ""]
+
+    db_0or1row opportunity_info "
+	select	o.object_type,
+		p.*
+	from	acs_objects o,
+		im_projects p
+	where	o.object_id = :opportunity_id and
+		o.object_id = p.project_id
+    "
+
     if {"im_timesheet_task" == $otype} {
 	ad_returnredirect [export_vars -base "/intranet-timesheet2-tasks/new" {{form_mode display} {task_id $opportunity_id}}]
     }  
