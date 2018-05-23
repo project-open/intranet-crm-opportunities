@@ -18,6 +18,8 @@ ad_page_contract {
     { project_name "" }
     { project_nr "" }
     { project_path "" }
+    { project_type_id "" }
+    { project_status_id "" }
     { presales_value "" }
     { presales_value_currency "" }
     { presales_probability 0 }
@@ -46,10 +48,11 @@ set current_url [im_url_with_query]
 
 # Required for updating user 
 set auto_login [im_generate_auto_login -user_id [ad_conn user_id]]
-
 set default_currency [im_parameter -package_id [im_package_cost_id] "DefaultCurrency" "" "EUR"]
 
 if { ![info exists company_id] } { set company_id 0 }
+
+set opportunity_subtypes_exist_p [expr [llength [im_sub_categories [im_project_type_opportunity]]] > 1]
 
 set validation_error_p 0
 
@@ -83,6 +86,31 @@ if {$opportunity_exists_p} {
     }
 }
 
+
+# ------------------------------------------------------------------
+# Redirect if project_type_id or project_sla_id are missing
+# ------------------------------------------------------------------
+
+if {"edit" == $form_mode} {
+    set redirect_p 0
+    # redirect if project_type_id is not defined
+    if {("" == $project_type_id || 0 == $project_type_id) && (![info exists opportunity_id] || $opportunity_id eq "")} {
+	set all_same_p [im_dynfield::subtype_have_same_attributes_p -parent_category_id [im_project_type_opportunity] -object_type "im_project"]
+	if {!$all_same_p} { set redirect_p 1 }
+    }
+
+    # Redirect in order to define the SLA and the project type
+    if {$redirect_p} {
+	set new_typeselect_url_default "/intranet-crm-opportunities/new-typeselect"
+	set new_typeselect_url [parameter::get_from_package_key -package_key "intranet-crm-opportunities" -parameter "NewTypeSelectUrl" -default $new_typeselect_url_default]
+	if {"" == $new_typeselect_url} { set new_typeselect_url $new_typeselect_url_default }
+	ad_returnredirect [export_vars -base $new_typeselect_url {{return_url $current_url} opportunity_id project_type_id project_name project_nr project_sla_id}]
+    }
+}
+
+if {"" eq $project_type_id} { set project_type_id [im_project_type_opportunity] }
+
+
 # ------------------------------------------------------------------
 # Build the form
 # ------------------------------------------------------------------
@@ -114,6 +142,16 @@ template::element::create $form_id project_nr -optional \
     -datatype text \
     -html {size 15} \
     -value [im_next_project_nr]
+
+
+
+if {$opportunity_subtypes_exist_p} {
+    template::element::create $form_id project_type_id \
+	-label "[lang::message::lookup {} intranet-crm-opportunities.Opportunity_Type {Opportunity Type}]" \
+	-widget "hidden" \
+	-value $project_type_id \
+    ]
+}
 
 # company_id
 template::element::create $form_id company_id \
@@ -164,7 +202,7 @@ if {[info exists opportunity_id]} { set my_opportunity_id $opportunity_id }
 im_dynfield::append_attributes_to_form \
 	-object_type "im_project" \
 	-form_id $form_id \
-	-object_subtype_id [im_project_type_opportunity] \
+	-object_subtype_id $project_type_id \
         -object_id $my_opportunity_id \
         -form_display_mode $form_mode
 
