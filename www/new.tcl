@@ -77,6 +77,14 @@ if {$opportunity_exists_p} {
         ad_return_complaint 1 "<li>[_ intranet-core.lt_Insufficient_Privileg]:<br> [_ intranet-core.lt_You_are_not_authorize]</li>"
         return
     }
+
+    # Get the project_type_id for DynField handling1
+    db_1row opportunity_info "
+	select	project_type_id
+	from	im_projects
+	where	project_id = :opportunity_id	         
+    "
+
 } else {
     # Does the current user has the right to create a new opportunity?
     if {![im_permission $user_id add_projects]} {
