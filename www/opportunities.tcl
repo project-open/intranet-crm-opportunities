@@ -25,7 +25,7 @@ ad_page_contract {
     { project_type_id:integer 0 } 
     { company_id:integer 0 } 
     { opportunity_type_id:integer 0}
-    { opportunity_sales_stage_id 84021 }
+    { opportunity_sales_stage_id:integer -1 }
     { start_idx:integer 0 }
     { start_date "" }
     { end_date "" }
@@ -43,7 +43,6 @@ ad_page_contract {
 # User id already verified by filters
 
 set show_context_help_p 0
-
 set user_id [auth::require_login]
 set admin_p [im_is_user_site_wide_or_intranet_admin $user_id]
 set subsite_id [ad_conn subsite_id]
@@ -53,6 +52,13 @@ set page_title  [lang::message::lookup "" intranet-crm-opportunities.Opportuniti
 set context_bar [im_context_bar $page_title]
 set return_url [im_url_with_query]
 set default_currency [parameter::get -package_id [apm_package_id_from_key intranet-cost] -parameter "DefaultCurrency" -default "USD"]
+
+if {-1 == $opportunity_sales_stage_id} {
+    # By default show only open opportunities
+    set opportunity_sales_stage_id [parameter::get_from_package_key -package_key "intranet-crm-opportunities" -parameter "DefaultOpportunityListStatus" -default ""]
+}
+
+# ad_return_complaint 1 $opportunity_sales_stage_id
 
 # Create an action select at the bottom if the "view" has been designed for it...
 # set show_bulk_actions_p [string equal "project_timeline" $view_name]

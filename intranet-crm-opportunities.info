@@ -10,7 +10,7 @@
     <inherit-templates-p>t</inherit-templates-p>
     <auto-mount>intranet-crm-opportunities</auto-mount>
 
-    <version name="5.0.2.4.0" url="http://www.project-open.net/download/apm/intranet-crm-opportunities-5.0.2.4.0.apm">
+    <version name="5.0.2.4.1" url="http://www.project-open.net/download/apm/intranet-crm-opportunities-5.0.2.4.1.apm">
         <owner url="mailto:info@project-open.com">System Administrator</owner>
         <summary>CRM Opportunities</summary>
         <release-date>2016-11-15</release-date>
@@ -26,7 +26,7 @@
         <callbacks>
         </callbacks>
         <parameters>
-        <!-- No version parameters -->
+            <parameter scope="instance" datatype="number"  min_n_values="1"  max_n_values="1"  name="DefaultOpportunityListStatus"  default="84021" description="Should we show only 'open' opportunities when showing the list by default? Default is 84021 for 'Open' opportunities. An empty string will show all opportunities."/>
         </parameters>
 
     </version>
