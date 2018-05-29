@@ -36,6 +36,7 @@ set sql "
 		LEFT OUTER JOIN (select * from im_category_hierarchy) p ON p.child_id = c.category_id
 	where
 		c.category_type = 'Intranet Project Type' and
+		c.category_id != [im_project_type_opportunity] and
 		c.category_id in ([join [im_sub_categories [im_project_type_opportunity]] ","])
 		-- and (c.enabled_p is null or c.enabled_p = 't')
 	order by
