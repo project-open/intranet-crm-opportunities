@@ -62,7 +62,6 @@ set validation_error_p 0
 
 # Check if we are creating a new opportunity or editing an existing one:
 set opportunity_exists_p 0
-
 if {[info exists opportunity_id]} {
     set opportunity_exists_p [db_string opportunity_exists "
 	select 	count(*) 
@@ -90,6 +89,8 @@ if {$opportunity_exists_p} {
 # ------------------------------------------------------------------
 # Redirect if project_type_id or project_sla_id are missing
 # ------------------------------------------------------------------
+
+ns_log Notice "intranet-crm-opportunities/new: form_mode=$form_mode, project_type_id=$project_type_id, opportunity_id=[im_opt_val opportunity_id]"
 
 if {"edit" == $form_mode} {
     set redirect_p 0
@@ -234,7 +235,7 @@ ad_form -extend -name $form_id -select_query {
 	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.OpportunitySalesStageMissing "Please provide a value for 'Sales Stage'"]"
 	ad_script_abort
     }
-	
+
     # Basic Sanity checks to avoid that user creates double entries 
     set project_name_exist_p [db_string get_data " select count(*) from im_projects where project_name = :project_name" -default 0]
     set project_nr_exist_p [db_string get_data " select count(*) from im_projects where project_nr = :project_nr OR project_path = :project_nr" -default 0]
@@ -304,6 +305,9 @@ ad_form -extend -name $form_id -select_query {
     # User Exit & Audit/Call Back
     im_user_exit_call project_create $opportunity_id
     im_audit -object_type im_project -action after_create -object_id $opportunity_id -status_id $opportunity_sales_stage_id -type_id [im_project_type_opportunity] -debug_p 1
+
+    set return_url [export_vars -base "/intranet-crm-opportunities/view" {opportunity_id}]
+    ns_log Notice "intranet-crm-opportunities/new: After 'new'"
     
 } -on_request {
 
@@ -392,13 +396,13 @@ ad_form -extend -name $form_id -select_query {
      set form_id "opportunity"
      set object_type "im_project"
      
-     ns_log Notice "companies/new: before append_attributes_to_form"
+     ns_log Notice "intranet-crm-opportunities/new: before append_attributes_to_form"
      im_dynfield::append_attributes_to_form \
      	-object_type im_project \
      	-form_id opportunity \
      	-object_id $opportunity_id 
      
-     ns_log Notice "companies/new: before attribute_store"
+     ns_log Notice "intranet-crm-opportunities/new: before attribute_store"
      im_dynfield::attribute_store \
      	-object_type im_project \
      	-object_id $opportunity_id \
@@ -420,9 +424,12 @@ ad_form -extend -name $form_id -select_query {
     }
 
 } -after_submit {
-	ad_returnredirect $return_url
-	ad_script_abort
+
+    ns_log Notice "intranet-crm-opportunities/new: after_submit: ad_returnredirect $return_url"
+    ad_returnredirect $return_url
+
 } -on_validation_error {
 	set validation_error_p 1
 	template::element::set_properties $form_id opportunity_owner_id options [im_employee_options 1]
 }
+
