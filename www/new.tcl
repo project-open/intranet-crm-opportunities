@@ -249,7 +249,7 @@ ad_form -extend -name $form_id -select_query {
                       -project_nr         $project_nr \
                       -project_path       $project_nr \
                       -company_id         $company_id \
-                      -project_type_id    [im_project_type_opportunity] \
+                      -project_type_id    $project_type_id \
                       -project_status_id  [im_project_status_potential] \
 		      ]
     } err_msg]} {
@@ -304,7 +304,7 @@ ad_form -extend -name $form_id -select_query {
 
     # User Exit & Audit/Call Back
     im_user_exit_call project_create $opportunity_id
-    im_audit -object_type im_project -action after_create -object_id $opportunity_id -status_id $opportunity_sales_stage_id -type_id [im_project_type_opportunity] -debug_p 1
+    im_audit -object_type im_project -action after_create -object_id $opportunity_id -status_id $opportunity_sales_stage_id -type_id $project_type_id -debug_p 1
 
     set return_url [export_vars -base "/intranet-crm-opportunities/view" {opportunity_id}]
     ns_log Notice "intranet-crm-opportunities/new: After 'new'"
@@ -368,6 +368,7 @@ ad_form -extend -name $form_id -select_query {
         update im_projects set
                 project_name =  	:project_name,
                 project_nr =    	:project_nr,
+                project_type_id = 	:project_type_id,
                 project_lead_id = 	:opportunity_owner_id,
                 company_id =    	:company_id
 		$company_contact_id_sql

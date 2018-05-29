@@ -24,6 +24,7 @@ ad_page_contract {
     { mine_p "f" }
     { project_type_id:integer 0 } 
     { company_id:integer 0 } 
+    { opportunity_type_id:integer 0}
     { opportunity_sales_stage_id 84021 }
     { start_idx:integer 0 }
     { start_date "" }
@@ -198,9 +199,29 @@ if {[im_permission $current_user_id "view_projects_all"]} {
 
 set company_options [im_company_options -include_empty_p 1 -include_empty_name $all_l10n -status "CustOrIntl"]
 
+
+set opportunity_type_options [db_list_of_lists type_options "
+select	category, category_id
+from	im_categories
+where	category_type = 'Intranet Project Type' and
+	category_id in (
+		select	child_id
+		from	im_category_hierarchy
+		where	parent_id = [im_project_type_opportunity]
+	)
+"]
+
+
 if {!$filter_advanced_p} {
     ad_form -extend -name $form_id -form {
 	{company_id:text(select),optional {label \#intranet-core.Customer\#} {options $company_options}}
+    }
+
+    if {[llength $opportunity_type_options] > 0} {
+	set opportunity_type_options [linsert $opportunity_type_options 0 [list [_ intranet-core.All] ""]]
+	ad_form -extend -name $form_id -form {
+	    {opportunity_type_id:text(select),optional {label \#intranet-core.Type\#} {options $opportunity_type_options}}
+	}
     }
 
     ad_form -extend -name $form_id -form {
@@ -244,11 +265,14 @@ if {$filter_advanced_p} {
 # ---------------------------------------------------------------
 
 set criteria [list]
-if { $opportunity_sales_stage_id ne "" && $opportunity_sales_stage_id != 0 } {
+if {$opportunity_sales_stage_id ne "" && $opportunity_sales_stage_id != 0 } {
     lappend criteria "p.opportunity_sales_stage_id in ([join [im_sub_categories $opportunity_sales_stage_id] ","])"
 }
-if { $company_id ne "" && $company_id != 0 } {
+if {$company_id ne "" && $company_id != 0 } {
     lappend criteria "p.company_id=:company_id"
+}
+if {$opportunity_type_id ne "" && $opportunity_type_id != 0 } {
+    lappend criteria "p.project_type_id in ([join [im_sub_categories $opportunity_type_id] ","])"
 }
 if {"" != $start_date} {
     lappend criteria "p.end_date >= :start_date::timestamptz"
@@ -280,7 +304,6 @@ set where_clause [join $criteria " and\n            "]
 if { $where_clause ne "" } {
     set where_clause " and $where_clause"
 }
-
 set extra_select [join $extra_selects ",\n\t"]
 if { $extra_select ne "" } {
     set extra_select ",\n\t$extra_select"
@@ -390,7 +413,7 @@ if { [lsearch -exact [im_sub_categories [im_opportunity_sales_stage_closed]] $op
     # Look up all Project Types, indicator if Project resulted from an CRM Opportunity is a value in attribute 'opportunity_sales_stage_id'
     set project_type_where_clause " and p.opportunity_sales_stage_id IS NOT NULL" 
 } else {
-    set project_type_where_clause " and p.project_type_id = [im_project_type_opportunity]" 
+    set project_type_where_clause " and p.project_type_id in ([join [im_sub_categories [im_project_type_opportunity]] ","])" 
 }
 
 
