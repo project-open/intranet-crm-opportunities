@@ -15,6 +15,7 @@
         <summary>CRM Opportunities</summary>
         <release-date>2016-11-15</release-date>
         <vendor url="www.project-open.com">Project Open Business Solutions S.L.</vendor>
+	<license>]project-open[ Free License (FL)</license>
         <description format="text/html">CRM Opportunities</description>
         <maturity>0</maturity>
 
