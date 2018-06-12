@@ -52,6 +52,8 @@ set im_company_link_tr [im_company_link_tr $user_id $company_id $company_name "[
 set im_render_user_id [im_render_user_id $project_lead_id $project_lead $user_id $opportunity_id]
 set im_render_company_contact_id [im_render_user_id $company_contact_id $company_contact $user_id $opportunity_id]
 set creation_date [db_string get_data "select to_char(creation_date, 'YYYY-MM-DD') from acs_objects where object_id = :opportunity_id " -default ""]
+set im_render_opportunity_type_id [db_string render_type_id "select im_category_from_id(:project_type_id)"]
+
 
 # ---------------------------------------------------------------------
 # Add DynField Columns to the display

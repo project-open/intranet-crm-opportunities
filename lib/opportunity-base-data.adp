@@ -13,10 +13,17 @@
     <td><%=[lang::message::lookup "" intranet-crm-opportunities.CompanyContact "Company Contact"]%></td>
     <td>@im_render_company_contact_id;noquote@</td>
   </tr>
+
   <tr> 
     <td><%=[lang::message::lookup "" intranet-crm-opportunities.OpportunityOwner "Owner"]%></td>
     <td>@im_render_user_id;noquote@</td>
   </tr>
+
+  <tr> 
+    <td><%=[lang::message::lookup "" intranet-crm-opportunities.OpportunityType "Type"]%></td>
+    <td>@im_render_opportunity_type_id;noquote@</td>
+  </tr>
+
   <tr>
     <td><%=[lang::message::lookup "" intranet-crm-opportunities.Created "Created"]%></td>
     <td>@creation_date;noquote@</td>
