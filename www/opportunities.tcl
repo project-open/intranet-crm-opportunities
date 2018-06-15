@@ -446,7 +446,8 @@ set sql "
 		(select project_name from im_projects where project_id = opportunity_campaign_id) as campaign_name,
                 c.company_name,
                 to_char(p.start_date, 'YYYY-MM-DD') as start_date_formatted,
-		to_char(o.creation_date, 'YYYY-MM-DD') as creation_date
+		to_char(o.creation_date, 'YYYY-MM-DD') as creation_date,
+		o.creation_user,
 		$extra_select
         FROM
                 $perm_sql p,
