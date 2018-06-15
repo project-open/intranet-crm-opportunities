@@ -447,7 +447,7 @@ set sql "
                 c.company_name,
                 to_char(p.start_date, 'YYYY-MM-DD') as start_date_formatted,
 		to_char(o.creation_date, 'YYYY-MM-DD') as creation_date,
-		o.creation_user,
+		o.creation_user
 		$extra_select
         FROM
                 $perm_sql p,
