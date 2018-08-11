@@ -13,6 +13,7 @@ ad_page_contract {
     @author klaus.hofeditz@project-open.com
 
 } {
+    { plugin_id:integer 0 }
 }
 
 set current_user_id [auth::require_login]
@@ -23,13 +24,6 @@ set return_url [im_url_with_query]
 # select the "CRM" Submenu
 set parent_menu_sql "select menu_id from im_menus where label='crm'"
 set parent_menu_id [util_memoize [list db_string parent_admin_menu $parent_menu_sql -default 0]]
-
-
-# ---------------------------------------------------------------
-# Sub-Navbar
-# ---------------------------------------------------------------
-
-set sub_navbar [im_crm_navbar "none" "/intranet-crm-opportunities/index" "" "" [list] "crm_home"] 
 
 
 # ----------------------------------------------------------
@@ -103,4 +97,26 @@ if { 0 != $reports_ctr } {
     "
 }
 
+
+# ---------------------------------------------------------------
+# Sub-Navbar
+# ---------------------------------------------------------------
+
+set letter "none"
+set plugin_url "/intranet-crm-opportunities/index"
+set menu_select_label "crm_home"
+set next_page_url ""
+set prev_page_url ""
+set sub_navbar_html [im_crm_navbar \
+			 -current_plugin_id $plugin_id \
+			 -plugin_url $plugin_url \
+			 $letter \
+			 $plugin_url \
+			 $next_page_url \
+			 $prev_page_url \
+			 [list] \
+			 $menu_select_label \
+]
+
+set left_navbar_html ""
 

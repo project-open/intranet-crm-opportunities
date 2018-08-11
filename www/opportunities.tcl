@@ -707,14 +707,6 @@ $table_continuation_html
 }
 
 
-# ---------------------------------------------------------------
-# Sub-Navbar
-# ---------------------------------------------------------------
-
-set crm_navbar_html [im_crm_navbar "none" $action_url "" "" [list] "crm_opportunities"]
-
-
-
 # Compile and execute the formtemplate if advanced filtering is enabled.
 eval [template::adp_compile -string {<formtemplate id="opportunity_filter" style="tiny-plain-po"></formtemplate>}]
 set filter_html $__adp_output
@@ -742,3 +734,26 @@ set left_navbar_html "
         $statistics
         </div>
 "
+
+
+# ---------------------------------------------------------------
+# Sub-Navbar
+# ---------------------------------------------------------------
+
+set letter "none"
+set plugin_id ""
+set plugin_url "/intranet-crm-opportunities/index"
+set menu_select_label "crm_opportunities"
+set next_page_url ""
+set prev_page_url ""
+set crm_navbar_html [im_crm_navbar \
+			 -current_plugin_id $plugin_id \
+			 -plugin_url $plugin_url \
+			 $letter \
+			 $action_url \
+			 $next_page_url \
+			 $prev_page_url \
+			 [list] \
+			 $menu_select_label \
+]
+
