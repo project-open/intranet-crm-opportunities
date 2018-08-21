@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="intranet-crm-opportunities" locale="it_IT" charset="ISO-8859-1">
+
+  <msg key="Ad_hoc_opportunity">Quotation</msg>
+  <msg key="AddANewOpportunity">Nuova Quotation</msg>
+  <msg key="CompanyContact">Contatto cliente</msg>
+  <msg key="Created">Data di creazione</msg>
+  <msg key="CreateNewCompany">Crea un nuovo Cliente
+</msg>
+  <msg key="CreateNewCostumerContact">Crea un nuovo Contatto</msg>
+  <msg key="CreateNewLead">Scheda Quotation </msg>
+  <msg key="New_Opportunity">Nuova Quotation</msg>
+  <msg key="Opportunities">Quotation</msg>
+  <msg key="Opportunities_Dashboard">Quotation Dashboard</msg>
+  <msg key="Opportunities_List">Lista Quotation</msg>
+  <msg key="OpportunityBaseData">Scheda Quotation</msg>
+  <msg key="OpportunityMembers">Assegna Risorse</msg>
+  <msg key="OpportunityName">Nome quotation</msg>
+  <msg key="OpportunityOwner">Project Manager</msg>
+  <msg key="OpportunitySalesStage">Fase</msg>
+  <msg key="PresalesValue">Valore Presales</msg>
+  <msg key="Top_10_Opportunities">Top 10 Quotation</msg>
+</message_catalog>
