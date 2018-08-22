@@ -187,7 +187,7 @@ function resetIFrame() {
 
 <section style="width: 100%; margin: 0 auto;overflow: hidden;">
   <div style="float:left;margin-right:20px">
-    <h2><%=[lang::message::lookup "" intranet-crm-opportunities.CreateNewLead "New Lead"]%></h2>
+    <h2>@page_title@</h2>
     <span id="div_create_lead"><formtemplate id="@form_id@"></formtemplate></span>
   </div>
   <div id="html_overlay" style="overflow: hidden;display: block;border-style:dotted">

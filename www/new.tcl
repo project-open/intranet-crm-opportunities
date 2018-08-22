@@ -20,12 +20,8 @@ ad_page_contract {
     { project_path "" }
     { project_type_id "" }
     { project_status_id "" }
-    { presales_value "" }
-    { presales_value_currency "" }
-    { presales_probability 0 }
     { company_id:integer,optional } 
     { company_contact_id:integer,optional } 
-    { opportunity_owner_id:integer,optional }
     { opportunity_sales_stage_id 0}
     { opportunity_priority_id 0}
     { form_mode "edit" }
@@ -189,20 +185,6 @@ if { "edit" == $form_mode } {
     template::element::set_properties $form_id company_contact_id after_html $after_html_val
 }
 
-#opportunity_owner_id
-template::element::create $form_id opportunity_owner_id -optional \
-    -label "[_ intranet-crm-opportunities.OpportunityOwner]" \
-    -widget "select" \
-    -options ""
-
-
-# presales_value
-template::element::create $form_id presales_value -optional \
-    -label [lang::message::lookup "" intranet-crm-opportunities.PresalesValue "Presales Value"] \
-    -datatype float \
-    -widget "text" \
-    -optional
-
 # ------------------------------------------------------
 # Dynamic Fields
 # ------------------------------------------------------
@@ -212,11 +194,12 @@ if {[info exists opportunity_id]} { set my_opportunity_id $opportunity_id }
 
 # Add dynfields to the form
 im_dynfield::append_attributes_to_form \
-	-object_type "im_project" \
-	-form_id $form_id \
-	-object_subtype_id $project_type_id \
-        -object_id $my_opportunity_id \
-        -form_display_mode $form_mode
+    -include_also_hard_coded_p 1 \
+    -object_type "im_project" \
+    -form_id $form_id \
+    -object_subtype_id $project_type_id \
+    -object_id $my_opportunity_id \
+    -form_display_mode $form_mode
 
 	
 # ------------------------------------------------------
@@ -233,12 +216,10 @@ ad_form -extend -name $form_id -select_query {
 
 } -new_data {
 
-    if { $presales_probability < 0 || $presales_probability > 100} {
+    if {[info exists presales_probability] && $presales_probability < 0 || $presales_probability > 100} {
 	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.OpportunityPresalesProbabilityOutOfRange "Presales probability must be between 0 and 100"]"
 	ad_script_abort
     }
-
-    if { "" eq $presales_value_currency } { set presales_value_currency $default_currency }
 
     # Make opportunity_sales_stage_id mandatory because we need is at an identifier to determine what project had been resulted out of a lead 
     # Should be covered by DynField Attribute - just doublecheck in case this Dynfield is been removed 
@@ -288,15 +269,12 @@ ad_form -extend -name $form_id -select_query {
     }
 
     # New BizRel   
-    if { [info exists opportunity_owner_id] } {
-    	im_biz_object_add_role $opportunity_owner_id $opportunity_id [im_biz_object_role_project_manager]
+    if {[info exists project_lead_id] && "" ne $project_lead_id} {
+    	im_biz_object_add_role $project_lead_id $opportunity_id [im_biz_object_role_project_manager]
     }
 
     set list_updates [list]
-    if { [info exists company_contact_id] } {lappend list_updates "company_contact_id = :company_contact_id"}
-    if { [info exists presales_value] } {lappend list_updates "presales_value = :presales_value"}
-    if { [info exists presales_probability] } {lappend list_updates "presales_probability = :presales_probability"}
-    if { [info exists opportunity_owner_id] } {lappend list_updates "project_lead_id = :opportunity_owner_id"}
+    if {[info exists company_contact_id] } {lappend list_updates "company_contact_id = :company_contact_id"}
 
     if {[catch {
     	db_dml project_update "update im_projects set [join $list_updates ","] where project_id = :opportunity_id"
@@ -322,16 +300,9 @@ ad_form -extend -name $form_id -select_query {
     
 } -on_request {
 
-	template::element::set_properties $form_id opportunity_owner_id options [im_employee_options 1 ]
-	if { !$opportunity_exists_p } {
-    	if {[catch {
-    		template::element::set_value $form_id presales_value_currency $default_currency  
-        } err_msg]} {} 
-        template::element::set_value $form_id opportunity_owner_id 0
-    } else {
-        set company_id_select [db_string get_data "select company_id from im_projects where project_id = :opportunity_id" -default 0]
-        template::element::set_properties $form_id company_contact_id options [im_customer_contact_options -include_empty_p 1 $company_id_select ]
-        template::element::set_value $form_id opportunity_owner_id [db_string get_data "select project_lead_id from im_projects where project_id = :opportunity_id" -default 0]
+    if {$opportunity_exists_p} {
+	set company_id_select [db_string get_data "select company_id from im_projects where project_id = :opportunity_id" -default 0]
+	template::element::set_properties $form_id company_contact_id options [im_customer_contact_options -include_empty_p 1 $company_id_select ]
     }
 
 } -edit_data {
@@ -340,14 +311,10 @@ ad_form -extend -name $form_id -select_query {
     # Update the Opportunity
     # -----------------------------------------------------------------
 
-    if { $presales_probability < 0 || $presales_probability > 100} {
+    if {[info exists presales_probability] && $presales_probability < 0 || $presales_probability > 100} {
 	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.OpportunityPresalesProbabilityOutOfRange "Presales probability must be between 0 and 100"]"
 	ad_script_abort
     }
-
-    set presales_sql ""
-    if { "" eq $presales_value_currency } { set presales_value_currency $default_currency }
-    set presales_sql ", presales_value = :presales_value, presales_value_currency = :presales_value_currency"
 
     # Make opportunity_sales_stage_id mandatory because we need is at an identifier to determine what project had been resulted out of a lead
     # Should be covered by DynField Attribute - just doublecheck in case this Dynfield is been removed
@@ -380,11 +347,9 @@ ad_form -extend -name $form_id -select_query {
                 project_name =  	:project_name,
                 project_nr =    	:project_nr,
                 project_type_id = 	:project_type_id,
-                project_lead_id = 	:opportunity_owner_id,
                 company_id =    	:company_id
 		$company_contact_id_sql
 		$opportunity_sales_stage_id_sql
-		$presales_sql
         where
                 project_id = :opportunity_id
     "
@@ -442,6 +407,5 @@ ad_form -extend -name $form_id -select_query {
 
 } -on_validation_error {
 	set validation_error_p 1
-	template::element::set_properties $form_id opportunity_owner_id options [im_employee_options 1]
 }
 
