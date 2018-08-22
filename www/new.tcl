@@ -42,9 +42,12 @@ set required_field "<font color=red size=+1><B>*</B></font>"
 
 set action_url "/intranet-crm-opportunities/new-2"
 set focus "menu.var_name"
-
-set page_title  [lang::message::lookup "" intranet-crm-opportunities.CreateOpportunity "Create Opportunity"]
 set current_url [im_url_with_query]
+set page_title  [lang::message::lookup "" intranet-crm-opportunities.CreateOpportunity "Create Opportunity"]
+if {[info exists project_type_id] && "" ne $project_type_id && 0 ne $project_type_id} {
+    append page_title ": [im_category_from_id $project_type_id]"
+}
+
 
 # Required for updating user 
 set auto_login [im_generate_auto_login -user_id [ad_conn user_id]]
