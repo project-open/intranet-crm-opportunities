@@ -216,7 +216,7 @@ ad_form -extend -name $form_id -select_query {
 
 } -new_data {
 
-    if {[info exists presales_probability] && $presales_probability < 0 || $presales_probability > 100} {
+    if {[info exists presales_probability] && ($presales_probability < 0 || $presales_probability > 100)} {
 	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.OpportunityPresalesProbabilityOutOfRange "Presales probability must be between 0 and 100"]"
 	ad_script_abort
     }
@@ -311,7 +311,7 @@ ad_form -extend -name $form_id -select_query {
     # Update the Opportunity
     # -----------------------------------------------------------------
 
-    if {[info exists presales_probability] && $presales_probability < 0 || $presales_probability > 100} {
+    if {[info exists presales_probability] && ($presales_probability < 0 || $presales_probability > 100)} {
 	ad_return_complaint 1 "[lang::message::lookup "" intranet-crm-opportunities.OpportunityPresalesProbabilityOutOfRange "Presales probability must be between 0 and 100"]"
 	ad_script_abort
     }
