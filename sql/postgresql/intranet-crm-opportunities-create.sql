@@ -210,9 +210,9 @@ SELECT im_component_plugin__new (
 			round(sum(coalesce(presales_probability,0) * coalesce(presales_value,project_budget,0)) / 100.0 / 1000.0) as value,
 			(select sort_order from im_categories where category_id = p.opportunity_sales_stage_id) as sort_order
 		from	im_projects p
-		where   p.parent_id is null
-			and p.project_status_id not in (select * from im_sub_categories(84018))
-			and project_type_id = 102
+		where   p.parent_id is null and
+			p.opportunity_sales_stage_id not in (select * from im_sub_categories(84018)) and
+			p.project_type_id in (select * from im_sub_categories(102))
 		group by opportunity_sales_stage_id
 		order by
 			sort_order,
@@ -245,7 +245,8 @@ SELECT im_component_plugin__new (
 		from	im_projects p,
 			im_companies cust
 		where	p.parent_id is null and
-			p.project_type_id = 102 and
+			p.opportunity_sales_stage_id not in (select * from im_sub_categories(84018)) and
+			p.project_type_id in (select * from im_sub_categories(102))
 			p.company_id = cust.company_id
 		order by weighted_value DESC
 		limit 10

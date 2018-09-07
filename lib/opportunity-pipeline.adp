@@ -392,7 +392,7 @@ Ext.onReady(function() {
     // Load stores that need parameters
     projectMainStore.getProxy().extraParams = { 
 	format: "json",
-	query: "parent_id is null and project_type_id = 102"
+	query: "parent_id is null and project_type_id in (select * from im_sub_categories(102)) and opportunity_sales_stage_id not in (select * from im_sub_categories(84018))"
     };
     projectMainStore.load();
 
