@@ -238,9 +238,9 @@ SELECT im_component_plugin__new (
 	'im_ad_hoc_query -format html -package_key intranet-crm-opportunities "
 		select	''<a href=/intranet/companies/view?company_id='' || cust.company_id || ''>'' || cust.company_name || ''</a>'' as company,
 			''<a href=/intranet/projects/view?project_id='' || p.project_id || ''>'' || p.project_name || ''</a>'' as opportunity,
-			round(p.presales_value) || ''[im_default_currency]'' as presales_value,
-			round(p.presales_probability) || ''%'' as presales_probability,
-			round(p.presales_value * p.presales_probability) as weighted_value
+			''<div align=right>''||round(p.presales_value) || '' [im_default_currency]</div>'' as presales_value,
+			''<div align=right>''||round(p.presales_probability) || ''%</div>'' as presales_probability,
+			''<div align=right>''||round(p.presales_value * p.presales_probability / 100.0)||'' [im_default_currency]</div>'' as weighted_value
 		from	im_projects p,
 			im_companies cust
 		where	p.parent_id is null and
@@ -252,7 +252,7 @@ SELECT im_component_plugin__new (
 			)
 		order by weighted_value DESC
 		limit 10
-"',   -- component_tcl
+	"',   -- component_tcl
 	'lang::message::lookup "" intranet-crm-opportunities.Top_10_Opportunities "Top 10 Opportunities"'
 );
 
