@@ -97,7 +97,7 @@ SELECT im_component_plugin__new (
         '/intranet-crm-opportunities/view',     	-- page_url
         null,                           		-- view_name
         10,                             		-- sort_order
-        'im_forum_component -user_id $user_id -forum_object_id $opportunity_id -current_page_url $current_url -return_url $return_url -forum_type "project" -export_var_list [list project_id forum_start_idx forum_order_by forum_how_many forum_view_name] -view_name [im_opt_val forum_view_name] -forum_order_by [im_opt_val forum_order_by] -start_idx [im_opt_val forum_start_idx] -restrict_to_mine_p "f" -restrict_to_new_topics 0 -write_icons 1',    -- component_tcl
+        'im_forum_component -user_id $user_id -forum_object_id $opportunity_id -current_page_url $current_url -return_url $return_url -forum_type "project" -export_var_list [list project_id forum_start_idx forum_order_by forum_how_many forum_view_name] -view_name [im_opt_val -limit_to nohtml forum_view_name] -forum_order_by [im_opt_val -limit_to nohtml forum_order_by] -start_idx [im_opt_val -limit_to nohtml forum_start_idx] -restrict_to_mine_p "f" -restrict_to_new_topics 0 -write_icons 1',    -- component_tcl
         'lang::message::lookup "" "intranet-crm-opportunities.OpportunityBaseData" "Opportunity Contact History"'
 );
 

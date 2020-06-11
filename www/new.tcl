@@ -97,8 +97,6 @@ if {$opportunity_exists_p} {
 # Redirect if project_type_id or project_sla_id are missing
 # ------------------------------------------------------------------
 
-ns_log Notice "intranet-crm-opportunities/new: form_mode=$form_mode, project_type_id=$project_type_id, opportunity_id=[im_opt_val opportunity_id]"
-
 if {"edit" == $form_mode} {
     set redirect_p 0
     # redirect if project_type_id is not defined
