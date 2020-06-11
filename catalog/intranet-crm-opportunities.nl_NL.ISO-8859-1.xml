@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="intranet-crm-opportunities" locale="nl_NL" charset="ISO-8859-1">
+
+  <msg key="Ad_hoc_company">Klant</msg>
+  <msg key="Ad_hoc_opportunity">Kans</msg>
+  <msg key="Ad_hoc_presales_probability">Waarschijnlijkheid</msg>
+  <msg key="Ad_hoc_presales_value">Waarde</msg>
+  <msg key="Ad_hoc_weighted_value">Gewogen waarde</msg>
+  <msg key="AddANewOpportunity">Nieuwe kans</msg>
+  <msg key="All">Alle</msg>
+  <msg key="Closed">Gesloten</msg>
+  <msg key="Closed_Lost">Gesloten verloren</msg>
+  <msg key="Closed_Won">Gesloten gewonnen</msg>
+  <msg key="Company">Bedrijf</msg>
+  <msg key="CompanyContact">Klantcontact</msg>
+  <msg key="Created">Aangemaakt</msg>
+  <msg key="CreateNewCompany">Maak nieuw bedrijf aan</msg>
+  <msg key="CreateNewCostumerContact">Maak nieuw klantcontact</msg>
+  <msg key="CreateNewLead">Nieuwe kans</msg>
+  <msg key="CreateProject">Creëer</msg>
+  <msg key="CRM_Dashboard">CRM dashboard</msg>
+  <msg key="CRM_Home">CRM Home</msg>
+  <msg key="FilterOpportunities">Filter kansen</msg>
+  <msg key="Id">Id</msg>
+  <msg key="LeadQueue">Pijplijn</msg>
+  <msg key="Needs_Analysis">Heeft analyse nodig</msg>
+  <msg key="New_Opportunity">Nieuwe kans</msg>
+  <msg key="NoOpportunitiesFound">Geen kans gevonden</msg>
+  <msg key="Open">Open</msg>
+  <msg key="Opportunities">Kansen</msg>
+  <msg key="Opportunities_Dashboard">Dashboard kansen</msg>
+  <msg key="Opportunities_List">Lijst kansen</msg>
+  <msg key="Opportunity">Kans</msg>
+  <msg key="OpportunityBaseData">Kans basisgegevens</msg>
+  <msg key="OpportunityCustomer">Klant</msg>
+  <msg key="OpportunityCustomerContact">Contact</msg>
+  <msg key="OpportunityFinanceDate">Kans financieel</msg>
+  <msg key="OpportunityMembers">Kans leden</msg>
+  <msg key="OpportunityName">Naam</msg>
+  <msg key="OpportunityNumber">Nr</msg>
+  <msg key="OpportunityOwner">Eigenaar</msg>
+  <msg key="OpportunityPipeline">Kans pijplijn</msg>
+  <msg key="OpportunitySalesStage">Verkoop stadium</msg>
+  <msg key="PageTitleViewOpportunity">Bekijk kans</msg>
+  <msg key="Perception_Analysis">Perceptie analyse</msg>
+  <msg key="PresalesValue">Voorverkoop waarde</msg>
+  <msg key="PresalesValueSum">Voorverkoop waarde som</msg>
+  <msg key="Prospecting">Vooruitkijken</msg>
+  <msg key="Qualification">Kwalificatie</msg>
+  <msg key="Sales_Pipeline_by_Number">Kansen op aantallen</msg>
+  <msg key="Sales_Pipeline_by_Volume">Kansen op omvang (*1000)</msg>
+  <msg key="Sales_Pipeline_Volume_vs_Probability">Verkooppijplijn omvang vs. waarschijnlijkheid</msg>
+  <msg key="SalesStage">Verkoop stadium</msg>
+  <msg key="Top_10_Opportunities">Top 10 Kansen</msg>
+  <msg key="Value_Proposition">Waarde voorstel</msg>
+  <msg key="WeightedValueSum">Gewogen waarde som</msg>
+</message_catalog>
