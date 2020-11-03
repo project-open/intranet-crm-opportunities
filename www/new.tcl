@@ -167,7 +167,7 @@ template::element::create $form_id company_id \
     -options [im_company_options -include_empty_p 1 -status "Active or Potential" -type "CustOrIntl"]
 
 if { "edit" == $form_mode } {
-    set after_html_val "&nbsp;<span id=\"company_name\"></span><input id=\"btn_loadNewCompany\" type=\"button\" name=\"\" value=\"$label_new_company\" onClick=\"loadNewCompanyIFrame()\">"
+    set after_html_val "&nbsp;<span id=\"company_name\"></span><input id=\"btn_loadNewCompany\" type=\"button\" name=\"\" value=\"$label_new_company\">"
     template::element::set_properties $form_id company_id after_html $after_html_val
 }
 
@@ -179,7 +179,7 @@ template::element::create $form_id company_contact_id -optional \
     -optional
 
 if { "edit" == $form_mode } {
-    set after_html_val "&nbsp;<input type=\"button\" id=\"btn_loadNewCompanyContact\" name=\"Create new company\" value=\"$label_new_cust_contact\" onClick=\"loadNewCompanyContactIFrame()\">"
+    set after_html_val "&nbsp;<input type=\"button\" id=\"btn_loadNewCompanyContact\" name=\"Create new company\" value=\"$label_new_cust_contact\">"
     template::element::set_properties $form_id company_contact_id after_html $after_html_val
 }
 

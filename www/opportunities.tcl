@@ -58,10 +58,6 @@ if {-1 == $opportunity_sales_stage_id} {
     set opportunity_sales_stage_id [parameter::get_from_package_key -package_key "intranet-crm-opportunities" -parameter "DefaultOpportunityListStatus" -default ""]
 }
 
-# ad_return_complaint 1 $opportunity_sales_stage_id
-
-# Create an action select at the bottom if the "view" has been designed for it...
-# set show_bulk_actions_p [string equal "project_timeline" $view_name]
 set show_bulk_actions_p 0
 
 if { $how_many eq "" || $how_many < 1 } {
@@ -234,11 +230,6 @@ if {!$filter_advanced_p} {
         {opportunity_sales_stage_id:text(im_category_tree),optional {label \#intranet-crm-opportunities.OpportunitySalesStage\#} {value $opportunity_sales_stage_id} {custom {category_type "Intranet Opportunity Sales Stage" translate_p 1 include_empty_name $all_l10n}} }
     }
 }
-
-#ad_form -extend -name $form_id -form {
-#    {start_date:text(text) {label "[_ intranet-timesheet2.Start_Date]"} {value "$start_date"} {html {size 10}} {after_html {<input type="button" style="height:20px; width:20px; background: url('/resources/acs-templating/calendar.gif');" onclick ="return showCalendar('start_date', 'y-m-d');" >}}}
-#    {end_date:text(text) {label "[_ intranet-timesheet2.End_Date]"} {value "$end_date"} {html {size 10}} {after_html {<input type="button" style="height:20px; width:20px; background: url('/resources/acs-templating/calendar.gif');" onclick ="return showCalendar('end_date', 'y-m-d');" >}}}
-# }
 
 set filter_admin_html ""
 if {$filter_advanced_p} {
