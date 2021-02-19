@@ -5,13 +5,13 @@
 
     <H2>CRM - User Documentation</H2>
     <ul>
-      <li><a href="http://www.project-open.com/en/module-crm" target="_blank">CRM - Module Overview</a>
-      <li><a href="http://www.project-open.com/en/company-tutorial" target="_blank">CRM - Company Management</a>
-      <li><a href="http://www.project-open.com/en/package-intranet-crm" target="_blank">CRM - Package Documentation</a>
-      <li><a href="http://www.project-open.com/en/package-intranet-crm-opportunities" target="_blank">CRM Opportunities - Package Documentation</a>
-      <li><a href="http://www.project-open.com/en/process-crm-campaign-management" target="_blank">CRM - Campaign Management Process</a>
+      <li><a href="https://www.project-open.com/en/module-crm" target="_blank">CRM - Module Overview</a>
+      <li><a href="https://www.project-open.com/en/company-tutorial" target="_blank">CRM - Company Management</a>
+      <li><a href="https://www.project-open.com/en/package-intranet-crm" target="_blank">CRM - Package Documentation</a>
+      <li><a href="https://www.project-open.com/en/package-intranet-crm-opportunities" target="_blank">CRM Opportunities - Package Documentation</a>
+      <li><a href="https://www.project-open.com/en/process-crm-campaign-management" target="_blank">CRM - Campaign Management Process</a>
 <!--
-      <li><a href="http://www.project-open.com/en/" target="_blank">CRM - </a>
+      <li><a href="https://www.project-open.com/en/" target="_blank">CRM - </a>
 -->
     </ul>
 
@@ -19,7 +19,7 @@
 <!--
     <H2>CRM - Admin Documentation</H2>
     <ul>
-      <li><a href="http://www.project-open.com/en/" target="_blank">CRM - </a>
+      <li><a href="https://www.project-open.com/en/" target="_blank">CRM - </a>
     </ul>
 -->
 

@@ -3,7 +3,7 @@
 # Copyright (C) 2016 ]project-open[
 #
 # All rights reserved. Please check
-# http://www.project-open.com/license/ for details.
+# https://www.project-open.com/license/ for details.
 
 # ----------------------------------------------------------------------
 # Shows a portlet taht lists opportunities the user is a member of

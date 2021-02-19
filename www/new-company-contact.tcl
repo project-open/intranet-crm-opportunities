@@ -3,7 +3,7 @@
 # Copyright (C) 2003-now ]project-open[
 #
 # All rights reserved. Please check
-# http://www.project-open.com/license/ for details.
+# https://www.project-open.com/license/ for details.
 
 ad_page_contract {
     @param company_id company_id 
